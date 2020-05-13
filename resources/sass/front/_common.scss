@@ -1,0 +1,59 @@
+.link{
+	cursor: pointer;
+}
+.mt-35{
+	margin-top:35px;
+}
+.mt-10{
+	margin-top:10px;
+}
+
+.mb-30{
+	margin-bottom: 30px;
+}
+.mb-20{
+	margin-bottom: 20px;
+}
+.p-20{ padding: 20px; }
+// Margin top 25
+.m-60{
+	margin-top:60px;
+}
+.banner_img{
+	background-size: cover;
+}
+
+.text_on_image{
+	position: relative;
+	.content{
+		position: absolute;
+		top: 40%;
+		left: 6%;
+		color: white;
+		background: transparent;
+		.heading{
+			font-size: 30px;
+			margin-bottom: 0px;
+		}
+		.sub{
+
+		}
+	}
+}
+
+
+.ui.selection.dropdown{
+	min-width: 100% !important;
+}
+img{
+	width: 100%;
+	height: auto;
+}
+a{
+	text-decoration: none;
+	color: black;
+	&:hover{
+	  text-decoration:none;
+	  color: black;
+	}
+}

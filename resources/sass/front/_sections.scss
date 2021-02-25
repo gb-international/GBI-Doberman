@@ -219,7 +219,6 @@ p {
   color: $text-black;
   padding: 0 1%;
   font-size: $dcustomerfp-font-size;
-  text-align: justify;
   font-family: $fontfamily;
   line-height: 29px;
 }
@@ -286,6 +285,7 @@ margin-top: -2px;
   a{
     text-decoration: none;
     color: black;
+    margin-right: -1px;
     &:hover{
       text-decoration:none;
       color: black;
@@ -310,122 +310,6 @@ margin-top: -2px;
   font-family: $fontfamily;
   text-align: center;
   font-weight: 600;
-}
-
-/*--------------------*/
-/* FOOTER */
-/*--------------------*/
-#footer {
-background-color: $primarycolor;
-display: inline;
-float: left;
-width: 100%;
-}
-
-.footer-top {
-display: inline;
-float: left;
-padding: 35px 0px 0px 0px;
-width: 100%;
-}
-.single-footer h3 {
-color: $oustorywhitebgcolor;
-font-size: 15px;
-text-transform: uppercase;
-margin-bottom: 8px;
-font-family: $fontfamily;
-}
-.single-footer p
-{
-color: $oustorywhitebgcolor;
-font-size: 15px;
-margin-bottom: 0px;
-font-family: $fontfamily;
-}
-.single-footer .fa
-{
-color: $oustorywhitebgcolor;
-margin-right: 13px;
-}
-.scrollToTop .fa {
-margin-right: 0px;
-}
-.single-footer ul{
- li {
-     list-style: none;
-     margin-bottom: 10px;
-     padding-bottom: 12px;
-     font-size: 14px;
-     margin-bottom: 29px;
-    }
-}
-.single-footer ul 
-{
-	li: last-child {
-		border-bottom: none;
-	}
-}
-.single-footer ul li
-{
- a {
-	color: $oustorywhitebgcolor;
-	}
-}
-.footer-top .single-footer ul 
-{
-	li {
-	color: #999999;
-	font-size: 14px;
-	padding: 5px 0px 5px 0px;
-	cursor: pointer;
-	width: 32.33%;
-	display: inline-block;
-	
-	}
-}
-.single-footer
-{
-padding: 0px 0px 7px 85px;
-}
-.footer-content {
-width: 100%;
-margin: 0 auto;
-padding-left: 20px;
-}
-.footr-img
-{
-	width: 225px;
-	margin: 0 auto;
-	display: inline-block;
-}
-.footer-bottom {
-background-color: $secondcolor;
-display: inline;
-padding: 10px 0;
-float: left;
-width: 100%;
-}
-.footer-bottom-area {
-display: inline;
-float: left;
-//text-align: center;
-width: 50%;
-}
-.footer-bottom-term
-{
-display: inline;
-float: right;
-width: 50%;
-text-align: right;
-}
-.copy-left {
-color: $oustorywhitebgcolor;
-margin-bottom: 0;
-font-size: 14px;
-padding-right: 35px;
-}
-.copy-left a{
-color: $primarycolor;
 }
 
 .overlay {
@@ -477,5 +361,8 @@ font-size: 14px;
   height: 100%;  
 }
 
+@media screen and (max-width: 767px){
+  #footer{ display: none !important;}
+}
 
 .content { width: 100%; padding: 2px; background: #fff; }

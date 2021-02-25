@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Location;
 use App\Model\Location\State;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Rules\AlphaSpace;
 
 class StateController extends Controller
 {
@@ -13,6 +14,12 @@ class StateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all($size)
+    {
+        return response()->json(State::with('country')
+            ->latest('updated_at')
+            ->paginate($size));
+    }
     public function index()
     {
         return response()->json(State::with('country')->get());
@@ -94,7 +101,7 @@ class StateController extends Controller
     public function validateState($request)
     {
       return $this->validate($request, [
-        'name' => 'required|unique:states',
+        'name' => ['required','unique:states',new AlphaSpace],
         'country_id' => 'required',
       ]);
     }

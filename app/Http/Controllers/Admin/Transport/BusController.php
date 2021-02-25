@@ -7,7 +7,7 @@ Purpose : Manage Transport
 */
 namespace App\Http\Controllers\Admin\Transport;
 
-use App\Model\Transport\bus;
+use App\Model\Transport\Bus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BusCollection;
@@ -19,9 +19,17 @@ class BusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all($size)
+    {
+        return response()->json(Bus::select([
+            'id','company_name','seater','seat_type','updated_at','price'
+            ])
+            ->latest('updated_at')
+            ->paginate($size));
+    }
     public function index()
     {
-        return new BusCollection(bus::get());
+        return new BusCollection(Bus::get());
     }
 
     /**
@@ -42,7 +50,7 @@ class BusController extends Controller
      */
     public function store(Request $request)
     {
-        bus::create($this->validateBus($request));
+        Bus::create($this->validateBus($request));
         return response()->json(['Message'=> 'successfull']);
     }
 
@@ -52,8 +60,9 @@ class BusController extends Controller
      * @param  \App\bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function show(bus $bus)
+    public function show($bus)
     {
+        $bus = Bus::where('id',$bus)->first();
         return response()->json($bus);
     }
 
@@ -63,8 +72,9 @@ class BusController extends Controller
      * @param  \App\bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function edit(bus $bus)
+    public function edit($bus)
     {
+        $bus = Bus::where('id',$bus)->first();
         return response()->json($bus);
     }
 
@@ -75,7 +85,7 @@ class BusController extends Controller
      * @param  \App\bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, bus $bus)
+    public function update(Request $request, Bus $bus)
     {
         $bus->update($this->validateBus($request));
         return response()->json(['message'=>'Successfully Updated']);
@@ -87,7 +97,7 @@ class BusController extends Controller
      * @param  \App\bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function destroy(bus $bus)
+    public function destroy(Bus $bus)
     {
         $bus->delete();
 

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>GBI-Panel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">  
     <meta name="csrf-token" content="{{ csrf_token() }}">    
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    {{-- <link href="{{ asset('css/admin/app.css') }}" rel="stylesheet"> --}}
     <link href="{{ secure_asset('css/admin/app.css') }}" rel="stylesheet">
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"> -->
-   
+     
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -52,421 +54,21 @@
         <!-- Brand Logo -->
         <a href="/"  class="brand-link logo_link">
             <img src="{{asset('assets/admin/default/icon/logo.png')}}"
-                 alt="AdminLTE Logo"
+                 alt="GBI Logo"
                  class="brand-image">
             <span class="brand-text font-weight-light">.</span>
         </a>
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar Menu -->
-            <nav class="mt-2" id="mynavigation">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview">
-                        <router-link to="/" class="nav-link dashboard_color">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>Dashboard</p>
-                        </router-link>
-                    </li>
-                    @canany(['add itineraries','edit itineraries','delete itineraries','account itineraries'])
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                          <i class="nav-icon far fa-file-alt"></i>
-                          <p>
-                            Itinerary
-                            <i class="right fas fa-angle-right"></i>
-                          </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                          @can('list itineraries')
-                          <li class="nav-item">
-                            <router-link to="/itinerary-list" class="nav-link">
-                              
-                              <p> Itinerary List</p>
-                            </router-link>
-                          </li>
-                          @endcan
-                          @can('add itineraries')
-                          <li class="nav-item">
-                            <router-link to="/add-itinerary" class="nav-link">
-                              
-                              <p> Add Itinerary</p>
-                            </router-link>
-                          </li>
-                          @endcan
-                          @can('account itineraries')
-                          <li class="nav-item">
-                            <router-link to="/account-itinerary" class="nav-link">
-                              
-                              <p> Account Itinerary</p>
-                            </router-link>
-                          </li>
-                          @endcan
-                        </ul>
-                    </li>
-                    @endcanany
-
-                    @canany(['list tour','add tour','edit tour','delete tour'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-bus"></i>
-                        <p> Tour <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                        @can('list hotels')
-                        <li class="nav-item">
-                          <router-link to="/tours" class="nav-link">
-                            <p> Tour List</p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('add hotels')
-                        <li class="nav-item">
-                          <router-link to="/add-tour" class="nav-link">
-                            <p> Add Tour </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('tourtype')
-                        <li class="nav-item">
-                          <router-link to="/tourtype" class="nav-link">
-                            <p> Tour type </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        
-
-                      </ul>
-                    </li>
-                    @endcanany
-
-                    
-                    
-
-                    @canany(['add hotels','edit hotels','delete hotels'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-hotel"></i>
-                        <p>
-                          Hotel
-                          <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                        @can('list hotels')
-                        <li class="nav-item">
-                          <router-link to="/hotel-list" class="nav-link">
-                            
-                            <p> Hotel List</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                        @can('add hotels')
-                        <li class="nav-item">
-                          <router-link to="/add-hotel" class="nav-link">
-                            <p> Add Hotel </p>
-                          </router-link>
-                        </li>
-                        @endcan
-                      </ul>
-                    </li>
-                    @endcanany
-                    
-                    @canany(['add transports','edit transports','delete transports'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-car"></i>
-                        <p>
-                          Transport
-                          <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-
-                        
-                        @can('list transport')
-                        <li class="nav-item">
-                          <router-link to="/bus-list" class="nav-link">
-                            <p> Bus </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('list transport')
-                        <li class="nav-item">
-                          <router-link to="/train-list" class="nav-link">
-                            <p> Train </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-
-                        @can('list transport')
-                        <li class="nav-item">
-                          <router-link to="/flight-list" class="nav-link">
-                            <p> Flight </p>
-                          </router-link>
-                        </li>
-                        @endcan
-                
-                      </ul>
-                    </li>
-                    @endcanany
-
-
-                    @canany(['add school','edit school','delete school'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="fas fa-school"></i>
-                        <p>
-                          School
-                          <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                        @can('list escorts')
-                        <li class="nav-item">
-                          <router-link to="/schools" class="nav-link">
-                            
-                            <p> School List</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                        @can('add escorts')
-                        <li class="nav-item">
-                          <router-link to="/add-school" class="nav-link">
-                            <p> Add School</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                      </ul>
-                    </li>
-                    @endcanany
-
-                    
-                    @canany(['add student','edit student','delete student'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="fas fa-user-graduate"></i>
-                        <p>
-                          Student
-                          <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                        @can('list escorts')
-                        <li class="nav-item">
-                          <router-link to="/students" class="nav-link">
-                            
-                            <p> Student List</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                        @can('add escorts')
-                        <li class="nav-item">
-                          <router-link to="/add-student" class="nav-link">
-                            
-                            <p> Add Student</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                      </ul>
-                    </li>
-                    @endcanany
-
-
-                    @canany(['add salesdps','edit salesdps','delete salesdps','itinerary salesdps'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-universal-access"></i>
-                        <p>
-                          Sales Department
-                          <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                        
-                        @can('itinerary salesdps')
-                        <li class="nav-item">
-                          <router-link to="/itinerary-from-account" class="nav-link">
-                            <p>Itinerary From Account</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                      </ul>
-                    </li>
-                    @endcanany
-
-
-
-
-
-
-                    @canany(['add escorts','edit escorts','delete escorts'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-male"></i>
-                        <p>
-                          Escort
-                          <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                        @can('list escorts')
-                        <li class="nav-item">
-                          <router-link to="/escort-list" class="nav-link">
-                            
-                            <p> Escort List</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                        @can('add escorts')
-                        <li class="nav-item">
-                          <router-link to="/add-escort" class="nav-link">
-                            
-                            <p> Add Escort</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                      </ul>
-                    </li>
-                    @endcanany
-
-                    @can(['city','state','country'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-map-marker-alt"></i>
-                        <p> Location <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-
-                        @can('city')
-                        <li class="nav-item">
-                          <router-link to="/list-city" class="nav-link">
-                            <p> City </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('state')
-                        <li class="nav-item">
-                          <router-link to="/list-state" class="nav-link">
-                            <p> State </p>
-                          </router-link>
-                        </li>
-                        @endcan
-                        
-                        @can('city')
-                        <li class="nav-item">
-                          <router-link to="/country-list" class="nav-link">
-                            <p> Country</p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                      </ul>
-                    </li>
-                    @endcan
-
-
-                    @can(['website'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p> Website <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-
-                        @can('tourprogram')
-                        <li class="nav-item">
-                          <router-link to="/tourprogram" class="nav-link">
-                            <p> Travel Programs </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('encyclopedia')
-                        <li class="nav-item">
-                          <router-link to="/encyclopedia-list" class="nav-link">
-                            <p> Encyclopedia </p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('encyclopediacomment')
-                        <li class="nav-item">
-                          <router-link to="/encyclopediacomment-list" class="nav-link">
-                            <p> Encyclopedia Comment</p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('homepage')
-                        <li class="nav-item">
-                          <router-link to="/homepage" class="nav-link">
-                            <p>Homepage</p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        
-                       
-                      </ul>
-                    </li>
-                    @endcan
-
-                    @canany(['setting','roles','permissions'])
-                    <li class="nav-item has-treeview">
-                      <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
-                        <p> Setting <i class="right fas fa-angle-right"></i>
-                        </p>
-                      </a>
-                      <ul class="nav nav-treeview">                        
-                        
-                        @can('role')
-                        <li class="nav-item">
-                          <router-link to="/list-role" class="nav-link">
-                            <p> Role</p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('permission')
-                        <li class="nav-item">
-                          <router-link to="/list-permission" class="nav-link">
-                            <p> Permission</p>
-                          </router-link>
-                        </li>
-                        @endcan
-
-                        @can('gbi member')
-                        <li class="nav-item">
-                          <router-link to="/list-member" class="nav-link">
-                            <p> GBI member</p>
-                          </router-link>
-                        </li>
-                        @endcan
-                      </ul>
-                    </li>
-                    @endcan
-
-                </ul>
-            </nav>
+            @include('admin.router')
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
     </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper pr-3 pl-3">
             <!-- Content Header (Page header) -->
             <admin-main></admin-main>
         </div>
@@ -488,8 +90,8 @@
 </div>
 
 <!-- ./wrapper -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/admin/adminlte.js"></script>
 <script>
   @auth
     window.Permissions = {!! json_encode(Auth::user()->allPermissions, true) !!};
@@ -497,17 +99,12 @@
     window.Permissions = [];
   @endauth
 
-
-$(document).ready(function(){
-
-});
-
-
-
 </script>
 
 
+{{-- <script src="{{ asset('js/admin/admin.js') }}"></script> --}}
 <script src="{{ secure_asset('js/admin/admin.js') }}"></script>
+
 
 </body>
 </html>

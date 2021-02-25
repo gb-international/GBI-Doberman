@@ -9,11 +9,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 use App\User;
 use App\Model\User\Information;
+use App\Model\User\Subscriber;
+use App\Model\Tour\TourUser;
+use App\Model\Tour\Tour;
+use App\Model\School\School;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use DB;
 use Image;
 use GuzzleHttp\Client;
+use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Hash;
+use App\Helpers\SendSms;
+use App\Jobs\ChangePasswordJob;
+use App\Rules\EmailValidate;
 
 
 
@@ -21,22 +30,24 @@ class UserController extends Controller{
     public $successStatus = 200;
     private $id = 'csrikhi@gbinternational.in';
     private $pwd = 'Roger224225g32@';
-/** 
+    /** 
      * login api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
     public function login(){ 
+        
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('MyApp')->accessToken; 
+            $success['status'] = $user->status;
             return response()->json(['success' => $success], $this-> successStatus); 
         } 
         else{ 
             return response()->json(['error'=>'Unauthorised'], 401); 
         } 
     }
-/** 
+    /** 
      * Register api 
      * 
      * @return \Illuminate\Http\Response 
@@ -45,7 +56,7 @@ class UserController extends Controller{
     { 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
-            'email' => 'required|email', 
+            'email' => ['required','email',new EmailValidate],
             'password' => 'required', 
             'c_password' => 'required|same:password', 
         ]);
@@ -60,8 +71,6 @@ class UserController extends Controller{
         $more  = new Information();
         $more->user_id = $user->id;
         $more->gbi_link = $request->gbi_link;
-        $more->client_type = $request->client_type;// Client type
-        $more->client_input = $request->client_input; // client input
         $more->phone_no = $request->phone_no;
         $more->otp = $request->otp;
         $more->varified = '1';
@@ -69,22 +78,18 @@ class UserController extends Controller{
         $more->gender = '';
         $more->save();
 
+        // subscribe for newsletter
+        if( !$subscriber = Subscriber::where('email',$user->email)->first()){
+            $data['email'] = $user->email;
+            $data['user_id'] = $user->id;
+            Subscriber::create($data);
+        }
 
-        // Send welcome message to user on their phonne
         
-
-        $phone = '91'.$request->phone_no;
-        $message = "Hey ".$request->name ." Thankyou for registering with GBInternational We value your association";
-
-        $ApiUrl ="https://www.businesssms.co.in/smsaspx?Id=".$this->id."&Pwd=".urlencode($this->pwd)."&PhNo=".$phone."&text=".urlencode($message);                
-
-        $client = new \GuzzleHttp\Client(['verify' => false ]);
-        $request = $client->get($ApiUrl);
-
-
-
-
-        // End more information 
+        $sendsms = new SendSms; // send welcome sms
+        $sendsms->signUpSMS($request->phone_no,$user);
+        // send email
+        WelcomeJob::dispatch($user);
         return response()->json('Successfully Registered !!!');
     }
 
@@ -93,7 +98,7 @@ class UserController extends Controller{
 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
-            'email' => 'required|email', 
+            'email' => ['required','email',new EmailValidate],
         ]);
 
         $user = Auth::user();
@@ -101,10 +106,13 @@ class UserController extends Controller{
         $user->email = $request->email;
         $user->save();
         $information = Information::where('user_id',$user->id)->firstOrFail();
-
+        
         $information->gbi_link = $request->gbi_link;
-        $information->client_type = $request->client_type;
-        $information->client_input = $request->client_input;
+        $information->user_profession = $request->user_profession;
+        $information->school_id = $request->school_id;
+        $information->profession_name = $request->profession_name;
+        $information->profession_address = $request->profession_address;
+        $information->institution_code = $request->institution_code;
         $information->phone_no = $request->phone_no;
         $information->father_name = $request->father_name;
         $information->mother_name = $request->mother_name;
@@ -118,6 +126,20 @@ class UserController extends Controller{
         $information->admission_year = $request->admission_year;
         $information->gender = $request->gender;
         $information->save();
+        
+        // if user is already subscribed
+        if($subscriber = Subscriber::where('email',$user->email)->first()){
+            $subscriber->status = $request->subscribe;
+            $subscriber->user_id = $user->id;
+            $subscriber->save();           
+        }else{            
+            if($request->subscribe){
+                $data['email'] = $user->email;
+                $data['user_id'] = $user->id;
+                Subscriber::create($data);
+            }
+        }
+
         return response()->json('Successuflly updated');
 
     }
@@ -157,6 +179,56 @@ class UserController extends Controller{
     public function show(){
         $user = Auth::user();
         $information = $user->information;
+        $information = $user->subscribe;
         return response()->json(['success' => $user], $this-> successStatus); 
+    }
+    /// user more information on model from model
+    public function infoUpdate(Request $request){
+        $user = Auth::user();
+        $user->status = 1;
+        $information = Information::where('user_id', $user->id)->first();
+        $information->user_profession = $request->user_profession;
+        $information->school_id = $request->school_id;
+        $information->profession_name = $request->profession_name;
+        $information->profession_address = $request->profession_address;
+
+        if($request->school_id == 'other'){
+            $this->validate($request,[
+                'profession_name'=>'required|unique:schools,school_name',
+                'profession_address' => 'required'
+            ]);
+            $data = ['school_name'=>$request->profession_name,'address'=>$request->profession_address];
+            $school = School::create($data);
+            $information->school_id = $school->id;
+        }
+        $information->institution_code = $request->institution_code;
+        
+
+        $information->save();
+        $user->save();
+        return response()->json('success');
+    }
+
+    public function UpdatePassword(Request $request){
+        $user = Auth::user();
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword($user)],
+            'new_password' => ['required'],
+            'confirm_password' => ['same:new_password'],
+        ]);
+        $user->update(['password'=> Hash::make($request->new_password)]);
+        $info = Information::where('user_id',$user->id)->first();
+        $info->change_password = 1;
+        $info->save(); 
+        ChangePasswordJob::dispatch($user);
+        return response()->json('Password change successfully.');
+    }
+
+    public function logout(Request $request){
+
+        if(Auth::user()){
+            Auth::user()->AauthAccessToken()->delete();
+        }
+        return response()->json('Logout successfull');
     }
 }

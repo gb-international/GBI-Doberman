@@ -14,9 +14,20 @@ use Validator;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
-
+use App\Rules\EmailValidate;
+use App\Rules\AlphaSpace;
 class GBIMemberController extends Controller
 {
+
+    public function all($size)
+    {
+        return response()->json(User::select([
+            'id','name','email','updated_at'
+            ])
+            ->where('user_role','1')
+            ->latest('updated_at')
+            ->paginate($size));
+    }
 
 	public function index()
 	{
@@ -26,8 +37,9 @@ class GBIMemberController extends Controller
     public function register(Request $request){ 
 
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required', 
-            'email' => 'required|email', 
+            'name' => ['required',new AlphaSpace],
+            'address' => 'required|min:3',
+            'email' => ['required','email',new EmailValidate],
             'password' => 'required', 
             'c_password' => 'required|same:password', 
         ]);

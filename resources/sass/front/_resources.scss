@@ -36,7 +36,7 @@
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
+
 		padding: 10px;
 		font-family: $fontfamily;
 	}
@@ -64,7 +64,7 @@
 	.edu-blockcontent
 	{
 		width: 33.33%;
-		height: 300px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -114,7 +114,6 @@
 	width:100%;
 	margin-top: 60px;
 	margin-bottom: 70px;
-	text-align: justify;
 	h1 {
 	 	color:$text-black;
 	 	font-size:$dourstoryh-font-size;
@@ -139,7 +138,6 @@
 	width:49%;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	text-align: justify;
 	float: left;
 	h1{
 		color: $text-grey;
@@ -153,7 +151,6 @@
 		color: lighten($text-black, 50%);
 		font-size:$dourstoryp-font-size;
 		font-family: $fontfamily;
-		padding: 10px;
 	}
 	img 
 	{
@@ -163,10 +160,7 @@
 /* End resources*/
 
 /* RESPONSIVE STYLE */
-@media (max-width: 320px) {
 
-
-}
 @media (max-width: 360px) {
 
 .edutravel-heading
@@ -199,7 +193,6 @@ h1 {
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
 	}
 }
 .section-edu
@@ -224,7 +217,7 @@ h1 {
 	.edu-blockcontent
 	{
 		width: 100%;
-		height: 300px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -273,7 +266,6 @@ h1 {
 	width:100%;
 	margin-top: 40px;
 	margin-bottom: 30px;
-	text-align: justify;
 	h1 {
 	 	color:$text-black;
 	 	font-size:$mourstoryh-font-size;
@@ -287,7 +279,7 @@ h1 {
 		font-size:$mourstoryh2-font-size;
 		margin-bottom: 15px;
 		font-family: $fontfamily;
-		padding: 10px;
+		padding: 10px 0px;
 
 	}
 	p{
@@ -295,7 +287,6 @@ h1 {
 		font-size:$dourstoryp-font-size;
 		margin-bottom: 20px;
 		font-family: $fontfamily;
-		padding: 10px;
 	}
 }
 .safety-paraimg
@@ -303,7 +294,6 @@ h1 {
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	text-align: justify;
 	float: left;
 	h1{
 		color: $text-grey;
@@ -358,7 +348,6 @@ h1 {
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
 	}
 }
 .section-edu
@@ -383,7 +372,7 @@ h1 {
 	.edu-blockcontent
 	{
 		width: 100%;
-		height: 300px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -432,7 +421,6 @@ h1 {
 	width:100%;
 	margin-top: 40px;
 	margin-bottom: 30px;
-	text-align: justify;
 	h1 {
 	 	color:$text-black;
 	 	font-size:$mourstoryh-font-size;
@@ -446,14 +434,13 @@ h1 {
 		font-size:$mourstoryh2-font-size;
 		margin-bottom: 15px;
 		font-family: $fontfamily;
-		padding: 10px;
+		padding: 10px 0px;
 	}
 	p{
 		color: lighten($text-black, 50%);
 		font-size:$dourstoryp-font-size;
 		margin-bottom: 20px;
 		font-family: $fontfamily;
-		padding: 10px;
 	}
 }
 .safety-paraimg
@@ -461,7 +448,6 @@ h1 {
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	text-align: justify;
 	float: left;
 	h1{
 		color: $text-grey;
@@ -484,7 +470,7 @@ h1 {
 	}
 }
 }
-@media (max-width: 640px) {
+@media screen and (min-width: 360px) and (max-width: 640px){
 
 .edutravel-heading
 { 
@@ -516,7 +502,7 @@ h1 {
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
+
 	}
 }
 .section-edu
@@ -541,7 +527,7 @@ h1 {
 	.edu-blockcontent
 	{
 		width: 100%;
-		height: 300px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -585,7 +571,9 @@ h1 {
 	border-left: 0px solid #ddd;
 }
 }
-@media (max-width: 767px) {
+
+@media screen and (min-width: 640px) and (max-width: 767px){
+
 .safe-seu-img
 {
 	height: 200px;
@@ -622,7 +610,7 @@ h1 {
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
+
 	}
 }
 .section-edu
@@ -647,7 +635,7 @@ h1 {
 	.edu-blockcontent
 	{
 		width: 100%;
-		height: 330px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -696,7 +684,6 @@ h1 {
 	width:100%;
 	margin-top: 40px;
 	margin-bottom: 30px;
-	text-align: justify;
 	h1 {
 	 	color:$text-black;
 	 	font-size:$mourstoryh1-font-size;
@@ -718,7 +705,6 @@ h1 {
 		font-size:$dourstoryp-font-size;
 		margin-bottom: 20px;
 		font-family: $fontfamily;
-		padding: 10px;
 	}
 }
 .safety-paraimg
@@ -726,7 +712,6 @@ h1 {
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	text-align: justify;
 	float: left;
 	h1{
 		color: $text-grey;
@@ -779,7 +764,7 @@ h1 {
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
+
 	}
 }
 .section-edu
@@ -804,7 +789,7 @@ h1 {
 	.edu-blockcontent
 	{
 		width: 33.33%;
-		height: 322px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -843,7 +828,6 @@ h1 {
 	width:100%;
 	margin-top: 35px;
 	margin-bottom: 70px;
-	text-align: justify;
 	h1 {
 	 	color:$text-black;
 	 	font-size:$dourstoryh-font-size;
@@ -856,7 +840,7 @@ h1 {
 		font-size:$dourstoryh2-font-size;
 		margin-bottom: 5px;
 		font-family: $fontfamily;
-		padding: 10px;
+		padding: 10px 0px;
 	}
 	p{
 		color: lighten($text-black, 50%);
@@ -864,7 +848,6 @@ h1 {
 		margin-bottom: 20px;
 		font-family: $fontfamily;
 		width: 100%;
-		padding: 10px;
 	}
 
 }
@@ -880,7 +863,6 @@ h1 {
 	width:49%;
 	margin-top: 20px;
 	margin-bottom: 30px;
-	text-align: justify;
 	float: left;
 	h1{
 		color: $text-grey;
@@ -935,7 +917,7 @@ h1 {
 		color: $text-grey;
 		font-size: $dedutravelp-font-size;
 		margin-bottom: 20px;
-		text-align: justify;
+
 	}
 }
 .section-edu
@@ -961,7 +943,7 @@ h1 {
 	.edu-blockcontent
 	{
 		width: 33.33%;
-		height: 333px;
+		height: 370px;
 		margin: 0 auto;
 		text-align: center;
 		float: left;
@@ -1000,7 +982,6 @@ h1 {
 	width:100%;
 	margin-top: 35px;
 	margin-bottom: 70px;
-	text-align: justify;
 	h1 {
 	 	color:$text-black;
 	 	font-size:$dourstoryh-font-size;
@@ -1021,7 +1002,6 @@ h1 {
 		margin-bottom: 20px;
 		font-family: $fontfamily;
 		width: 100%;
-		padding: 10px 0px;
 	}
 
 }
@@ -1030,7 +1010,6 @@ h1 {
 	width:49%;
 	margin-top: 20px;
 	margin-bottom: 30px;
-	text-align: justify;
 	float: left;
 	h1{
 		color: $text-grey;
@@ -1056,95 +1035,4 @@ h1 {
 }
 
 
-// @media (min-width: 1025px) and (max-width: 1280px) {
-
-// .edutravel-heading
-// { h1 {
-
-//     color: $text-black;
-//     font-size: $dedutravelh-font-size;
-//     padding: 20px;
-// 	width: 100%;
-// }
-// }
-// .edutravel-content
-// {
-// 	padding-bottom: 5px;
-// 	h2
-// 	{
-// 		color: $text-grey;
-// 		font-size: $dedutravelp-font-size;
-// 		margin-bottom: 15px;
-// 		padding-top: 32px;
-// 	}
-// 	p 
-// 	{
-// 		color: $text-grey;
-// 		font-size: $dedutravelp-font-size;
-// 		margin-bottom: 20px;
-// 		text-align: justify;
-// 	}
-// }
-// .section-edu
-// {
-// 	width: 100%;
-// 	margin: 0 auto;
-// 	height: 300px;
-
-// 	h2 
-// 	{
-// 		color: $text-grey;
-// 		font-size: $dedutravelh-font-size;
-// 		margin-bottom: 20px;
-// 		padding-top: 32px;
-// 		text-align: center;
-// 		width: 70%;
-// 		display: block;
-// 		margin-left: 169px;
-// 		font-family: $fontfamily;
-// 	}
-
-// 	.edu-blockcontent
-// 	{
-// 		width: 33.33%;
-// 		height: 300px;
-// 		margin: 0 auto;
-// 		text-align: center;
-// 		float: left;
-// 			img
-// 			{
-// 				margin-top: 20px;
-// 				margin-bottom: 15px;
-// 				display: inline-block;
-// 			}
-// 			h3
-// 			{
-// 				color: $text-grey;
-// 				font-size: $dedutravelp-font-size;
-// 				margin-bottom: 5px;
-// 				padding-top: 10px;
-// 				text-align: center;
-// 				width: 100%;
-// 				display: block;
-// 				font-family: $fontfamily;
-// 			}
-// 			p 
-// 			{
-// 			color: $text-grey;
-// 			font-size: $dedutravelp-font-size;
-// 			margin-bottom: 20px;
-// 			text-align: center;
-//     		padding: 12px;
-//     		font-family: $fontfamily;
-// 			}
-
-			
-// 	}
-// }
-// }
-
-
-
-
-
-/* End resources*/
+/* end resources */

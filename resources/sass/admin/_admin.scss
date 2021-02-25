@@ -1,10 +1,8 @@
 // Main Admin  Area
 #adminmain{
-	padding: 0px 20px 20px;
 	min-height: 500px;
 	background-color: $admin-body;
-
-
+	
 	.custom-radio,.custom-checkbox{margin-top: 14px;}
 	.cross_btn{margin-top: 37px;color: white;}
 	// Form
@@ -35,7 +33,7 @@
 		border: 3px solid  $admin-bg;
 		font-weight: 600;
 		background-color:transparent;
-		color: $admin-bg;
+		color: $admin-bg !important;
 		font-size: 18px;
 		margin-top: 30px;
 		min-width: 300px;
@@ -111,14 +109,17 @@
 	// Admin body area
 	.container_admin_body{
 		#example_length{
-			width: 74%;
+			width: 50% !important;
             float: left;
 		    select{
-			    padding-left:7px;
+			    padding-left:7px !important;
+				height: 35px !important;
+				margin: 0px 12px;
 			}
 		}
 		padding: 10px 30px;
 		#example_filter{
+			float: right;
 			input[type='search']{
 				border-radius: 4px;
                 height: 29px;
@@ -180,10 +181,8 @@
 		.dataTables_paginate{
 			float: right;margin-right: 0px;
 			.paginate_button{
-				border:1px solid grey;
 			    padding: 5px 10px;				    
 			    background: #cecece;
-			    color: black;
 			    border: none;
 			    margin-right: 2px;
 			    border-radius: 2px;
@@ -192,7 +191,8 @@
 			    	background-color: #a59e9e;
 				    color: white;
 				    text-decoration: none;
-			    }
+				}
+				a{ color: #2e3031; }
 			}
 		}
 	}
@@ -201,7 +201,7 @@
 			margin-bottom: 20px;
 			h5{
 		    font-weight: 700;
-			font-size: 18px;
+			font-size: 15px;
 			color: #928e8e;
 			padding-bottom: 5px;
 			}
@@ -578,7 +578,10 @@ Admin Login page
 		    height: 47px;
 		    border-bottom: 2px solid $admin-login-form;
 		    color: white;
-		    font-size: 19px;
+			font-size: 19px;
+			outline: 0px;
+			box-shadow: none;
+
 		}
 		img{
 			margin-bottom: 50px;
@@ -600,3 +603,4 @@ Admin Login page
 		a{color: $admin-login-form}
 	}
 }
+

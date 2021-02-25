@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\City;
+use App\Model\Location\City;
 class CityTableSeeder extends Seeder
 {
     /**
@@ -12,193 +12,193 @@ class CityTableSeeder extends Seeder
     public function run()
     {
         $html_city = "  
-		  <item>Agartala,India</item>
-		  <item>Agra,India</item>
-		  <item>Agumbe,India</item>
-		  <item>Ahmedabad,India</item>
-		  <item>Aizawl,India</item>
-		  <item>Ajmer,India</item>
-		  <item>Alappuzha Beach,India</item>
-		  <item>Allahabad,India</item>
-		  <item>Alleppey,India</item>
-		  <item>Almora,India</item>
-		  <item>Amarnath,India</item>
-		  <item>Amritsar,India</item>
-		  <item>Anantagir,India</item>
-		  <item>Andaman and Nicobar Islands,India</item>
-		  <item>Araku valley,India</item>
-		  <item>Aurangabad,India</item>
-		  <item>Ayodhya,India</item>
-		  <item>Badrinath,India</item>
-		  <item>Bangalore,India</item>
-		  <item>Baroda,India</item>
-		  <item>Bastar,India</item>
-		  <item>Bhagalpur,India</item>
-		  <item>Bhilai,India</item>
-		  <item>Bhimtal,India</item>
-		  <item>Bhopal,India</item>
-		  <item>Bhubaneswar,India</item>
-		  <item>Bhuj,India</item>
-		  <item>Bidar,India</item>
-		  <item>Bilaspur,India</item>
-		  <item>Bodh Gaya,India</item>
-		  <item>Calicut,India</item>
-		  <item>Chail,India</item>
-		  <item>Chamba,India</item>
-		  <item>Chandigarh,India</item>
-		  <item>Chennai,India</item>
-		  <item>Chennai Beaches,India</item>
-		  <item>Cherai,India</item>
-		  <item>Cherrapunji,India</item>
-		  <item>Chidambaram,India</item>
-		  <item>Chikhaldara Hills,India</item>
-		  <item>Chopta,India</item>
-		  <item>Coimbatore,India</item>
-		  <item>Coonoor,India</item>
-		  <item>Coorg,India</item>
-		  <item>Corbett National Park,India</item>
-		  <item>Cotigao Wild Life Sanctuary,India</item>
-		  <item>Cuttack,India</item>
-		  <item>Dadra and Nagar Haveli,India</item>
-		  <item>Dalhousie,India</item>
-		  <item>Daman and Diu,India</item>
-		  <item>Darjeeling,India</item>
-		  <item>Dehradun,India</item>
-		  <item>Delhi,India</item>
-		  <item>Devikulam,India</item>
-		  <item>Dhanaulti,India</item>
-		  <item>Dharamashala,India</item>
-		  <item>Dindigul,India</item>
-		  <item>Dudhwa National Park,India</item>
-		  <item>Dwaraka,India</item>
-		  <item>Faridabad,India</item>
-		  <item>Gandhinagar,India</item>
-		  <item>Gangotri,India</item>
-		  <item>Gangtok,India</item>
-		  <item>Gir Wildlife Sanctuary,India</item>
-		  <item>Goa,India</item>
-		  <item>Great Himalayan National Park,India</item>
-		  <item>Gulmarg,India</item>
-		  <item>Gurgaon,India</item>
-		  <item>Guruvayoor,India</item>
-		  <item>Guwahati,India</item>
-		  <item>Gwalior,India</item>
-		  <item>Hampi,India</item>
-		  <item>Haridwar,India</item>
-		  <item>Hogenakkal,India</item>
-		  <item>Horsley Hills,India</item>
-		  <item>Hyderabad,India</item>
-		  <item>Idukki,India</item>
-		  <item>Imphal,India</item>
-		  <item>Indore,India</item>
-		  <item>Itangar,India</item>
-		  <item>Jabalpur,India</item>
-		  <item>Jaipur,India</item>
-		  <item>Jaisalmer,India</item>
-		  <item>Jalandhar,India</item>
-		  <item>Jammu,India</item>
-		  <item>Jamshedpur,India</item>
-		  <item>Jodhpur,India</item>
-		  <item>Kanchipuram,India</item>
-		  <item>Kanha National Park,India</item>
-		  <item>Kanpur,India</item>
-		  <item>Kanyakumari,India</item>
-		  <item>Kargil,India</item>
-		  <item>Karwar,India</item>
-		  <item>Kausani,India</item>
-		  <item>Kedarnath,India</item>
-		  <item>Keoladeoghana National Park,India</item>
-		  <item>Khajuraho,India</item>
-		  <item>Kochi,India</item>
-		  <item>Kodaikanal,India</item>
-		  <item>Kolkata,India</item>
-		  <item>Kollam,India</item>
-		  <item>Konark,India</item>
-		  <item>Kotagiri,India</item>
-		  <item>Kottakkal and Ayurveda,India</item>
-		  <item>Kovalam,India</item>
-		  <item>Kovalam and Ayurveda,India</item>
-		  <item>Kudremukh,India</item>
-		  <item>Kullu,India</item>
-		  <item>Kumaon,India</item>
-		  <item>Kumarakom,India</item>
-		  <item>Kumarakom and Ayurveda,India</item>
-		  <item>Kumarakom Bird Sanctuary,India</item>
-		  <item>Kurukshetra,India</item>
-		  <item>Lakshadweep,India</item>
-		  <item>Lucknow,India</item>
-		  <item>Ludhiana,India</item>
-		  <item>Madurai,India</item>
-		  <item>Mahabalipuram,India</item>
-		  <item>Malpe Beach,India</item>
-		  <item>Manas National Park,India</item>
-		  <item>Mangalore,India</item>
-		  <item>Maravanthe Beach,India</item>
-		  <item>Margoa,India</item>
-		  <item>Mount Abu,India</item>
-		  <item>Mumbai,India</item>
-		  <item>Munnar,India</item>
-		  <item>Mussoorie,India</item>
-		  <item>Mysore,India</item>
-		  <item>Nahsik,India</item>
-		  <item>Nalanda,India</item>
-		  <item>Nanda Devi National Park,India</item>
-		  <item>Nandi Hills,India</item>
-		  <item>Netravali Wild Life Sanctuary,India</item>
-		  <item>Ooty,India</item>
-		  <item>Orchha,India</item>
-		  <item>Pahalgam,India</item>
-		  <item>Palakkad,India</item>
-		  <item>Panchgani,India</item>
-		  <item>Patna,India</item>
-		  <item>Patnitop,India</item>
-		  <item>Pattadakkal,India</item>
-		  <item>Periyar Wildlife Sanctuary,India</item>
-		  <item>Pithoragarh,India</item>
-		  <item>Pondicherry,India</item>
-		  <item>Pune,India</item>
-		  <item>Puri,India</item>
-		  <item>Pushkar,India</item>
-		  <item>Raipur,India</item>
-		  <item>Rajaji National Park,India</item>
-		  <item>Rajgir,India</item>
-		  <item>Rameshwaram,India</item>
-		  <item>Ranchi,India</item>
-		  <item>Ranganthittu Bird Sanctuary,India</item>
-		  <item>Ranikhet,India</item>
-		  <item>Ranthambore,India</item>
-		  <item>Rishikesh,India</item>
-		  <item>Rourkela,India</item>
-		  <item>Sanchi,India</item>
-		  <item>Saputara,India</item>
-		  <item>Sariska Wildlife Sanctuary,India</item>
-		  <item>Shillong,India</item>
-		  <item>Shimla,India</item>
-		  <item>Sohna_Hills,India</item>
-		  <item>Srinagar,India</item>
-		  <item>Sunderbans,India</item>
-		  <item>Surat,India</item>
-		  <item>Tezpur,India</item>
-		  <item>Thanjavur,India</item>
-		  <item>Thiruvananthapuram,India</item>
-		  <item>Thrissur,India</item>
-		  <item>Tirunelveli,India</item>
-		  <item>Tirupati,India</item>
-		  <item>Trichy,India</item>
-		  <item>Udaipur,India</item>
-		  <item>Ujjain,India</item>
-		  <item>Vaishali,India</item>
-		  <item>Valley of Flowers,India</item>
-		  <item>Varanasi,India</item>
-		  <item>Varkala and Ayurveda,India</item>
-		  <item>Vijayawada,India</item>
-		  <item>Vishakhapatnam,India</item>
-		  <item>Vrindhavan,India</item>
-		  <item>Warangal,India</item>
-		  <item>Wayanad,India</item>
-		  <item>Wayanad Wildlife Sanctuary,India</item>
-		  <item>Yercaud,India</item>
-		  <item>Zanskar,India</item>";
+		  <item>Agartala</item>
+		  <item>Agra</item>
+		  <item>Agumbe</item>
+		  <item>Ahmedabad</item>
+		  <item>Aizawl</item>
+		  <item>Ajmer</item>
+		  <item>Alappuzha Beach</item>
+		  <item>Allahabad</item>
+		  <item>Alleppey</item>
+		  <item>Almora</item>
+		  <item>Amarnath</item>
+		  <item>Amritsar</item>
+		  <item>Anantagir</item>
+		  <item>Andaman and Nicobar Islands</item>
+		  <item>Araku valley</item>
+		  <item>Aurangabad</item>
+		  <item>Ayodhya</item>
+		  <item>Badrinath</item>
+		  <item>Bangalore</item>
+		  <item>Baroda</item>
+		  <item>Bastar</item>
+		  <item>Bhagalpur</item>
+		  <item>Bhilai</item>
+		  <item>Bhimtal</item>
+		  <item>Bhopal</item>
+		  <item>Bhubaneswar</item>
+		  <item>Bhuj</item>
+		  <item>Bidar</item>
+		  <item>Bilaspur</item>
+		  <item>Bodh Gaya</item>
+		  <item>Calicut</item>
+		  <item>Chail</item>
+		  <item>Chamba</item>
+		  <item>Chandigarh</item>
+		  <item>Chennai</item>
+		  <item>Chennai Beaches</item>
+		  <item>Cherai</item>
+		  <item>Cherrapunji</item>
+		  <item>Chidambaram</item>
+		  <item>Chikhaldara Hills</item>
+		  <item>Chopta</item>
+		  <item>Coimbatore</item>
+		  <item>Coonoor</item>
+		  <item>Coorg</item>
+		  <item>Corbett National Park</item>
+		  <item>Cotigao Wild Life Sanctuary</item>
+		  <item>Cuttack</item>
+		  <item>Dadra and Nagar Haveli</item>
+		  <item>Dalhousie</item>
+		  <item>Daman and Diu</item>
+		  <item>Darjeeling</item>
+		  <item>Dehradun</item>
+		  <item>Delhi</item>
+		  <item>Devikulam</item>
+		  <item>Dhanaulti</item>
+		  <item>Dharamashala</item>
+		  <item>Dindigul</item>
+		  <item>Dudhwa National Park</item>
+		  <item>Dwaraka</item>
+		  <item>Faridabad</item>
+		  <item>Gandhinagar</item>
+		  <item>Gangotri</item>
+		  <item>Gangtok</item>
+		  <item>Gir Wildlife Sanctuary</item>
+		  <item>Goa</item>
+		  <item>Great Himalayan National Park</item>
+		  <item>Gulmarg</item>
+		  <item>Gurgaon</item>
+		  <item>Guruvayoor</item>
+		  <item>Guwahati</item>
+		  <item>Gwalior</item>
+		  <item>Hampi</item>
+		  <item>Haridwar</item>
+		  <item>Hogenakkal</item>
+		  <item>Horsley Hills</item>
+		  <item>Hyderabad</item>
+		  <item>Idukki</item>
+		  <item>Imphal</item>
+		  <item>Indore</item>
+		  <item>Itangar</item>
+		  <item>Jabalpur</item>
+		  <item>Jaipur</item>
+		  <item>Jaisalmer</item>
+		  <item>Jalandhar</item>
+		  <item>Jammu</item>
+		  <item>Jamshedpur</item>
+		  <item>Jodhpur</item>
+		  <item>Kanchipuram</item>
+		  <item>Kanha National Park</item>
+		  <item>Kanpur</item>
+		  <item>Kanyakumari</item>
+		  <item>Kargil</item>
+		  <item>Karwar</item>
+		  <item>Kausani</item>
+		  <item>Kedarnath</item>
+		  <item>Keoladeoghana National Park</item>
+		  <item>Khajuraho</item>
+		  <item>Kochi</item>
+		  <item>Kodaikanal</item>
+		  <item>Kolkata</item>
+		  <item>Kollam</item>
+		  <item>Konark</item>
+		  <item>Kotagiri</item>
+		  <item>Kottakkal and Ayurveda</item>
+		  <item>Kovalam</item>
+		  <item>Kovalam and Ayurveda</item>
+		  <item>Kudremukh</item>
+		  <item>Kullu</item>
+		  <item>Kumaon</item>
+		  <item>Kumarakom</item>
+		  <item>Kumarakom and Ayurveda</item>
+		  <item>Kumarakom Bird Sanctuary</item>
+		  <item>Kurukshetra</item>
+		  <item>Lakshadweep</item>
+		  <item>Lucknow</item>
+		  <item>Ludhiana</item>
+		  <item>Madurai</item>
+		  <item>Mahabalipuram</item>
+		  <item>Malpe Beach</item>
+		  <item>Manas National Park</item>
+		  <item>Mangalore</item>
+		  <item>Maravanthe Beach</item>
+		  <item>Margoa</item>
+		  <item>Mount Abu</item>
+		  <item>Mumbai</item>
+		  <item>Munnar</item>
+		  <item>Mussoorie</item>
+		  <item>Mysore</item>
+		  <item>Nahsik</item>
+		  <item>Nalanda</item>
+		  <item>Nanda Devi National Park</item>
+		  <item>Nandi Hills</item>
+		  <item>Netravali Wild Life Sanctuary</item>
+		  <item>Ooty</item>
+		  <item>Orchha</item>
+		  <item>Pahalgam</item>
+		  <item>Palakkad</item>
+		  <item>Panchgani</item>
+		  <item>Patna</item>
+		  <item>Patnitop</item>
+		  <item>Pattadakkal</item>
+		  <item>Periyar Wildlife Sanctuary</item>
+		  <item>Pithoragarh</item>
+		  <item>Pondicherry</item>
+		  <item>Pune</item>
+		  <item>Puri</item>
+		  <item>Pushkar</item>
+		  <item>Raipur</item>
+		  <item>Rajaji National Park</item>
+		  <item>Rajgir</item>
+		  <item>Rameshwaram</item>
+		  <item>Ranchi</item>
+		  <item>Ranganthittu Bird Sanctuary</item>
+		  <item>Ranikhet</item>
+		  <item>Ranthambore</item>
+		  <item>Rishikesh</item>
+		  <item>Rourkela</item>
+		  <item>Sanchi</item>
+		  <item>Saputara</item>
+		  <item>Sariska Wildlife Sanctuary</item>
+		  <item>Shillong</item>
+		  <item>Shimla</item>
+		  <item>Sohna_Hills</item>
+		  <item>Srinagar</item>
+		  <item>Sunderbans</item>
+		  <item>Surat</item>
+		  <item>Tezpur</item>
+		  <item>Thanjavur</item>
+		  <item>Thiruvananthapuram</item>
+		  <item>Thrissur</item>
+		  <item>Tirunelveli</item>
+		  <item>Tirupati</item>
+		  <item>Trichy</item>
+		  <item>Udaipur</item>
+		  <item>Ujjain</item>
+		  <item>Vaishali</item>
+		  <item>Valley of Flowers</item>
+		  <item>Varanasi</item>
+		  <item>Varkala and Ayurveda</item>
+		  <item>Vijayawada</item>
+		  <item>Vishakhapatnam</item>
+		  <item>Vrindhavan</item>
+		  <item>Warangal</item>
+		  <item>Wayanad</item>
+		  <item>Wayanad Wildlife Sanctuary</item>
+		  <item>Yercaud</item>
+		  <item>Zanskar</item>";
 		//echo strip_tags($html_city);
 
 		$html_city = str_replace("</item>",",,",$html_city);
@@ -206,9 +206,10 @@ class CityTableSeeder extends Seeder
 		$html_array = explode(",,",$html_city);
 		foreach ($html_array as $city) {
 			if($city != NULL){
-				City::create(['name'=>$city]);
+				City::create(['country_id'=>2,'state_id'=>'5','name'=>$city]);
 			}
 		}
 		// UPDATE `cities` SET `name` = REPLACE(`name`, '\n', '')
+		// UPDATE `cities` SET `name` = REPLACE(`name`, '\t\t', '')
     }
 }

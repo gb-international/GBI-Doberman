@@ -1,18 +1,68 @@
 <?php
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function(){
-    return view('front.index');
+// Route::get('/', function(){
+//     return view('front.index');
+// });
+
+use App\Mail\ForgetPasswordMail;
+use App\Mail\PasswordResetMail;
+use App\Mail\WelcomeMail;
+
+
+
+
+Route::post('/payment','Front\PaymentController@payment');
+Route::post('/response','Front\PaymentController@response');
+Route::post('/cancel','Front\PaymentController@cancel');
+// marketing
+Route::get('/marketings/{slug}','Front\MarketingController@index');
+Route::post('/marketings','Front\MarketingController@store');
+
+// ---------------------------------------------
+
+Route::post('/test-data', 'Front\PaymentController@test');
+// ---------------------------------------------
+
+Route::get('/check',function(){
+//    $data = ['email'=>'ajay_yadav@gbinternational.in'];
+    
+    // Mail::send(['text'=>'email.welcome'], $data, function($message) {
+    //      $message->to('abc@gmail.com', 'Tutorials Point')->subject
+    //         ('Laravel Basic Testing Mail');
+    //      $message->from('xyz@gmail.com','Virat Gandhi');
+    //   });
+
+        $data = ['name'=>'Ajay','email'=>'ajay_yadav@gbinternational.in','link'=>'https:sdjf.com'];
+        // Mail::to($data['email'])->send( new PasswordResetMail($data));
+        Mail::to($data['email'])->send( new WelcomeMail($data));
+
+        // dd('done');
+   
+
+        // $myEmail = 'ajay@gmail.com';
+   
+        // $details = [
+        //     'title' => 'Mail Demo from ItSolutionStuff.com',
+        //     'url' => 'https://www.itsolutionstuff.com'
+        // ];
+  
+        // Mail::to($myEmail)->send(new ForgetPasswordMail($details));
+   
+        // dd("Mail Send Successfully");
+    //   Mail::send(['text'=>'email.welcome'], $data, function($message) {
+    //      $message->to('abc@gmail.com', 'Tutorials Point')->subject
+    //         ('Laravel Basic Testing Mail');
+    //      $message->from('xyz@gmail.com','Virat Gandhi');
+    //   });
+    //   echo "Basic Email Sent. Check your inbox.";
+
+    // echo 'done';
+
 });
+
+
+
+
 
 Route::group(['middleware' => ['web']], function () {
     Auth::routes();
@@ -42,3 +92,8 @@ Route::group(['middleware' => ['web']], function () {
         });
     }); 
 }); 
+
+Route::get('escort/{any}', 'Escort\AppController@index')->where('any', '.*');
+
+Route::get('/{any}', 'Front\AppController@get')->where('any', '.*');
+

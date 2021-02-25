@@ -8,7 +8,7 @@ Purpose : Manage accountant itinerary which is sent to sales man
 namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
-use App\Http\Resources\AccountCollection;
+use App\Http\Resources\Admin\AccountCollection;
 use App\Model\Account\Account;
 use App\User;
 use App\Model\Tour\Tour;
@@ -24,6 +24,17 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all($size)
+    {
+        $data['data'] = Account::leftjoin('itineraries', 'itineraries.id', '=', 'accounts.itinerary_id')
+                ->leftjoin('users', 'users.id', '=' ,'accounts.salesdp_id')
+                ->select('itineraries.title','accounts.price','accounts.status','accounts.id','users.name')
+                ->where('accounts.status' ,'!=', 'confirm')
+                ->orderBy('accounts.id','desc')
+                ->paginate($size);
+        return response()->json($data['data']);
+    }
+
     public function index()
     {
         $data['data'] = Account::leftjoin('itineraries', 'itineraries.id', '=', 'accounts.itinerary_id')

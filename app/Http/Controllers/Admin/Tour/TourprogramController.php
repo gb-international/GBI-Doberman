@@ -6,6 +6,7 @@ use App\Model\Tour\Tourprogram;
 use App\Model\Itinerary\Itinerary;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\ImageTrait;
 use Carbon\Carbon;
 use Image;
 
@@ -16,9 +17,23 @@ class TourprogramController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    use ImageTrait;
+    public function all($size)
+    {
+        return response()->json(Tourprogram::select([
+            'id','description','title','image','updated_at'
+            ])
+            ->latest('updated_at')
+            ->paginate($size));
+    }
+
     public function index()
     {
-        return response()->json(Tourprogram::get());
+        return response()->json(Tourprogram::select([
+            'id','description','title','image','updated_at'
+            ])
+            ->latest('updated_at')
+            ->paginate(7));
     }
 
     /**
@@ -41,10 +56,11 @@ class TourprogramController extends Controller
     {
         $validate = $this->validate($request,[
             'title'=>'required',
-            'description'=>'required'
+            'description'=>'required',
+            'alt'=>'',
         ]);
-
-        $validate['image'] = $this->uploadImage($request->input('image'));
+        
+        $validate['image'] = $this->singleFile($request->image,'/images/tourprogram/',$request->alt);
         $tourprogram = Tourprogram::create($validate);
 
         $data = [];
@@ -90,12 +106,13 @@ class TourprogramController extends Controller
     {
         $validate = $this->validate($request,[
             'title'=>'required',
-            'description'=>'required'
+            'description'=>'required',
+            'alt'=>'',
         ]);
         $validate['image'] = $tourprogram->image;
 
         if($request->input('image') != $validate['image']){
-            $validate['image'] = $this->uploadImage($request->input('image'));
+            $validate['image'] = $this->singleFile($request->image,'/images/tourprogram/',$request->alt);
         }
 
         $tourprogram->update($validate);

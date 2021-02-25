@@ -1,88 +1,26 @@
-#itinerary_detail_list{
-	.active{
-		background-color: #91c95a;
-		h2,p{ color: #236f49;}
-		span{
-			color: white;
-		}
-	}
-	.inactive{
-		background-color: #e1e1e1;
-		color:#646464;
-		span{
-			color: #949494;
-		}
-	}
 
-	.list{
-		border-radius:4px;
-		p{font-size: 15px;}
-		h2{
-			font-size: 20px;
-		}
-
-		span{
-			font-size: 12px;
-		}
-
-		.list_text{
-			padding: 20px 25px;
-			width: 70%;
-		    float: left;
-		}
-
-		.list_img{
-			padding: 0px  3px 2px;
-			width: 30%;
-		    float: right;
-			img{
-				border-radius:4px;
-				width: 94%;
-				margin-top: 3px;
-			}
-		}
-	}
+.bg-cover {
+    background-attachment: static;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-
-@media screen and (min-width: 340px) and (max-width: 800px){
-	#itinerary_detail_list{
-		padding: 5px;
-		.list{
-			p{font-size: 13px;}
-			h2{ font-size: 16px; }
-			span{ font-size: 10px; }
-		    .list_text{
-		    	padding: 10px 20px;
-		    	width: 60%;
-		    }
-			.list_img{
-				width: 40%;
-				padding: 0px;
-				img{
-					padding-right: 5px;
-					margin-top: 0px;
-				}
-			}
-		}
+.tour_list_card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%);
+    .container{ 
+        background: #0b090940;
     }
+    border-radius: 14px;
+    overflow: hidden;
+    background-size: cover;
 }
 
-@media screen and (min-width: 800px) and (max-width:1024px){
-	#itinerary_detail_list{
-		.list{
-			.list_text{
-				width: 60%;
-			    float: left;
-			}
 
-			.list_img{
-				width: 40%;
-			    float: right;
-				img{
-					border-radius:4px;
-					width: 94%;
-				}
-			}
-		}	
+@media screen and (max-width: 438px){
+	.tour_list_card{
+		.col{
+            font-size: 11px;
+        }	
 	}
 }

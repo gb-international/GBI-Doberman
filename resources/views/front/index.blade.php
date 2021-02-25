@@ -1,30 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-  <head>
-    <title>G.B. International,Your Travel Planner</title> 
-       
-    <!-- Google Tag Manager -->
-       <!-- Google Tag Manager -->
-      <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-WNXQXSR');</script>
-      <!-- End Google Tag Manager -->
-       <!-- End Google Tag Manager -->
-
-    <script data-ad-client="ca-pub-4198732675931101" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <head> 
     <meta charset="utf-8"/>
-
-    <link rel="alternate" hreflang="en-gb" href="https://en-gb.gowithgbi.com" />
-    <link rel="alternate" hreflang="en-us" href="https://en-us.gowithgbi.com" />
-    <link rel="alternate" href="https://gowithgbi.com" hreflang="x-default" />
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="author" content="g.b.international" />
+    <meta name="author" content="gbinternational" />
     <meta name="language" content="en" />
-    <meta name="google-site-verification" content="XFdDtNin6WHbrqM4pG_t19ydYdA4C7JC0IqxyG_WSEw" />
     <meta name="author" content="@GBI" /> 
     <meta name="copyright" content="GB International" />
     <meta name="robots" content="follow"/>
@@ -32,108 +14,69 @@
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="expires" content="exercise date in seconds"/>
     <meta http-equiv="expires" content="0"/> <meta http-equiv="expires" content="43200"/>
-    <!--Link Rel For Meta Name Language -->
-     
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/icon" href="{{ secure_asset('assets/front/images/favicon.png') }}"/>    <!-- Font Awesome --><!-- Ajay Added Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   <!-- Slick slider -->
-    <link href="{{ secure_asset('assets/front/css/slickcss.css') }}" rel="stylesheet">
-    <link href="{{ secure_asset('assets/front/css/reset.css') }}" rel="stylesheet">
-    <!-- Fonts -->
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" /> 
+    <link rel="shortcut icon" type="image/icon" href="{{ asset('assets/front/images/favicon.png') }}"/>  
     <!-- css stylesheet -->
-    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
-    <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138734768-1"></script>
-     <!-- <script data-ad-client="ca-pub-4198732675931101" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
-
-      <!-- Meta names -->
-	
-
-
-
-    <!-- Fonts -->
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" /> 
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preload" href="{{ asset('assets/front/css/bootstrap.min.css') }}" as="style">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> --}}
+    {{-- Global site tag (gtag.js) - Google Analytics --}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138734768-1"></script>
+     <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'UA-138734768-1');
+    </script>
     <!-- css stylesheet -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+    {{-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> --}}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138734768-1"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138734768-1"></script>     
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138734768-1"></script>
+
     <meta property="og:title" content="G.B International is a travel educational specialist for young minds.">
     <meta property="og:site_name" content="gowithgbi.com">
+    <meta property="og:keywords" content="tour,gbi tour and travel, travel">
     <meta property="og:url" content="https://www.gowithgbi.com/travel-and-education#/">
     <meta property="og:description" content="GBI is a travel educationist rooted in experiential learning. It has tailored made itineraries reflect the classroom curricula and support academic objective.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://www.gowithgbi.com/assets/front/images/banner2.jpg">
-    <meta itemprop="name">
-    <meta property="og:title">
-    <meta name="twitter:title">
-    <meta name="description"/>
-    <meta itemprop="description">
-    <meta property="og:description">
-    <meta name="twitter:description">
-
-
-
-<meta name="fragment" content="!">
+     <title>Home page</title>
+     <description></description>
     <style type="text/css">
-          body { padding-right: 0 !important }
+      body { padding-right: 0 !important }
     </style>
-        
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   </head>
 <body>
-     
-     <!-- Google Tag Manager (noscript) -->
-    <!-- Google Tag Manager (noscript) -->
- <!-- Google Tag Manager (noscript) -->
-<!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNXQXSR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<!-- End Google Tag Manager (noscript) -->
-<!-- End Google Tag Manager (noscript) -->
-    <!-- END SCROLL TOP BUTTON -->
-    {{-- Loder in html --}}
-    
-    <!-- Start Header -->
-    <!-- id="contents" -->
-    
-  <div id="app">
-    <div class="">  
-      <div class="row">
-        <home-main></home-main>
-      </div>
-    </div>
-  </div>
-  <!-- End footer -->
+
+
+
+ {{-- {!! $ssr !!}
+  <script src="{{ asset('js/entry-client.js') }}" type="text/javascript"></script> --}}
+
+  {!! ssr('js/entry-server.js')
+            // Share the packages with the server script through context
+            // If ssr fails, we need a container to render the app client-side
+            ->fallback('<div id="app"></div>')
+            ->render() !!}
+
 
 <script>
-   window.Laravel = <?php echo json_encode([
-       'csrfToken' => csrf_token(),
+  window.Laravel = <?php echo json_encode([
+      'csrfToken' => csrf_token(),
     ]); ?>
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
 
-    <!-- vue JavaScript -->
-    <script src="{{secure_asset('js/app.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript" ></script>
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <!-- Slick slider-->
-    <script type="text/javascript" src="{{ secure_asset('assets/front/js/slick.min.js') }}"></script>
-    <!-- Custom js -->
-    <script type="text/javascript" src="{{ secure_asset('assets/front/js/custom.js') }}"></script>
-    <!--<script src="https://use.fontawesome.com/26d5579a34.js" type="text/javascript" ></script>-->
-    <script type="text/javascript" src="{{ secure_asset('assets/front/js/storage.js') }}"></script>
-  <!---slider script-->
-  
- {{-- Ajay Added Bootstrap CDN --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{{-- <script rel="preload" src="{{ asset('assets/front/js/jquery.min.js') }}" as="script"></script> --}}
+
+
+<script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+
 
 
 <script type="text/javascript">
@@ -164,15 +107,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </script>
 <script>
-
-
-
-
-
 window.onscroll = function() {myFunction()};
 
 var header = document.getElementById("myHeader");
-var sticky = header.offsetTop;
+// var sticky = header.offsetTop;
 
 function myFunction() {
   if (window.pageYOffset > sticky) {
@@ -195,6 +133,7 @@ $(document).ready(function(){
 
 
 </script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -207,7 +146,7 @@ $(document).ready(function(){
     "addressLocality": "NEW DELHI",
     "addressRegion": "Delhi",
     "postalCode": "110017"
-
+        
   },
   "image": "https://www.gowithgbi.com/assets/front/images/logo.png",
   "email": "info@gbinternational.in",

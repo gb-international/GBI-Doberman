@@ -2,16 +2,18 @@
 /* created by : Ajay yadav 
 Purpose : Manage tour of gbi  */
 namespace App\Http\Controllers\Admin\Tour;
-use App\Model\Tour\Tour;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Model\Tour\Tour;
 use App\Http\Resources\TourCollection;
 use App\Model\Reservation\Bookedbus;
 use App\Model\Reservation\Bookedescort;
 use App\Model\Reservation\Bookedflight;
 use App\Model\Reservation\Bookedhotel;
+use App\Model\Reservation\Bookedrestaurant;
 use App\Model\Reservation\Bookedtrain;
+use App\Model\Reservation\Bookedsightseeing;
 
 class TourController extends Controller
 {
@@ -20,6 +22,13 @@ class TourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function all($size)
+    {
+        return response()->json(Tour::with('school:id,school_name')
+            ->latest('updated_at')
+            ->paginate($size));
+    }
     public function index()
     {
         return new TourCollection(Tour::with('school')->get());
@@ -43,7 +52,7 @@ class TourController extends Controller
      */
     public function store(Request $request)
     {
-        Tour::create($this->validateTour($request));
+        $tour = Tour::create($this->validateTour($request));
         return response()->json(['Message'=> 'Successfully Added...']);
     }
 
@@ -63,9 +72,11 @@ class TourController extends Controller
         $flights = Bookedflight::with('flight')->where('tour_id',$tour->id)->get();
         $hotels = Bookedhotel::with('hotel')->where('tour_id',$tour->id)->get();
         $buses = Bookedbus::with('bus')->where('tour_id',$tour->id)->get();
+        $restaurant = Bookedrestaurant::with('restaurant')->where('tour_id',$tour->id)->get();
+        $sightseeing = Bookedsightseeing::with('sightseeing')->where('tour_id',$tour->id)->get()->groupBy('itineraryday_id');
         
         
-        $data = ['itinerary'=>$tour->itinerary,'school'=>$tour->school,'tour'=>$tour,'escort'=>$escorts,'train'=>$trains,'flight'=>$flights,'hotel'=>$hotels,'bus'=>$buses];
+        $data = ['itinerary'=>$tour->itinerary,'school'=>$tour->school,'tour'=>$tour,'escort'=>$escorts,'train'=>$trains,'flight'=>$flights,'hotel'=>$hotels,'restaurant'=>$restaurant,'bus'=>$buses,'sightseeing'=>$sightseeing];
         
         
         return response()->json($data);
@@ -114,6 +125,7 @@ class TourController extends Controller
             'school_id' => 'required',
             'itinerary_id' => 'required',
             'tour_id' => 'required',
+            'travel_code' => 'required',
             'tour_start_date' => 'required',
             'tour_end_date' => 'required',
             'tour_price' => 'required',

@@ -18,19 +18,27 @@ use PDF;
 use Storage;
 use App\mail\sendMail;
 use Illuminate\Http\Request;
+use App\Jobs\ContactUsJob;
+use App\Jobs\ContactUsUserJob;
+use App\Jobs\JoinOurTeamJob;
+use App\Jobs\JoinOurTeamUserJob;
+
+use App\Rules\EmailValidate;
+use App\Rules\PhoneNubmerValidate;
+use App\Rules\AlphaSpace;
 
 class JoinourteamController extends Controller
 {
     public function resumeSend(Request $request)
     {
     	$this->validate($request, [
-    		'firstname' => 'required',
-    		'lastname' => 'required',
-    		'email' => 'required|email',
-    		'contactno' => 'required|numeric|min:10',
+    		'firstname' => 'required|alpha',
+    		'lastname' => 'required|alpha',
+    		'email' => ['required','email',new EmailValidate],
+    		'contactno' => ['required','numeric',new PhoneNubmerValidate],
     		'address' => 'required',
-    		'state' => 'required',
-    		'city' => 'required',
+    		'state' => ['required',new AlphaSpace],
+    		'city' => ['required',new AlphaSpace],
     		'zipcode' => 'required|numeric',
     		'postvancy' => 'required',
     		'resume' => 'required',
@@ -51,7 +59,7 @@ class JoinourteamController extends Controller
             $fileName = rand(100000,1001238912).".".$extension;
             $url = public_path() . '/resume/' . $fileName;
             file_put_contents($url , $data);
-            return response()->json(['success'=>$explode]);
+            $url = url('/').'/resume/'.$fileName;
         }else{
             return response()->json(['error'=>'Please Upload doc or pdf file']);
         }
@@ -66,11 +74,15 @@ class JoinourteamController extends Controller
 			'city'=>$request->city,
 			'zipcode'=>$request->zipcode,
 			'postvancy'=>$request->postvancy,
-			'messagescon'=>$request->messagescon
-			);
+            'messagescon'=>$request->messagescon,
+            'link'=>$url,
+            'emailto'=>'ajay_yadav@gbinternational.in'
+            );
 
-    	 Mail::to('ajay_yadav@gbinternational.in')->send( new SendMailresume ($data['firstname'], $data['lastname'], $data['email'], $data['contactno'], $data['address'], $data['state'], $data['city'], $data['zipcode'], $data['postvancy'], $data['messagescon'], $url));
-     //    return redirect()->back()->with('success','send mail successfully');
+         JoinOurTeamJob::dispatch($data);
+         $data['emailto'] = $request->email;
+         JoinOurTeamUserJob::dispatch($data);
+         return 'success';
     }
 
     public function word_file(Request $request){
@@ -97,23 +109,24 @@ class JoinourteamController extends Controller
     public function contactUs(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'mobile' => 'required|numeric|min:10',
-            'messagecon' => 'required',
+            'name' => ['required',new AlphaSpace],
+            'email' => ['required','email',new EmailValidate],
+            'mobile' => ['required','numeric',new PhoneNubmerValidate],
+            'messagecon' => 'required|min:3',
         ]);
+
         $data = array(
                 'email'=>$request->email,
                 'name'=>$request->name,
                 'mobile'=>$request->mobile,
-                'messagecon'=>$request->messagecon
+                'messagecon'=>$request->messagecon,
+                'emailto'=>'ajay_yadav@gbinternational.in'
                 );
-            //Mail::send('email.contactmail', $data, function($message) use ($data){
-            //  $message->from($data['email']);
-            //  $message->to('jyoti_shaw@gbinternational.in');
-            //  $message->subject($data['name']);
-            //});
-        Mail::to($data['email'])->send( new SendMail($data['messagecon'], $data['mobile'], $data['name'], $data['email']));
+        // contact us mail for admin
+        ContactUsJob::dispatch($data);
+        $data['emailto'] = $request->email; // override emailto for user
+        ContactUsUserJob::dispatch($data);
+        return 'succss';
     }
     
 }

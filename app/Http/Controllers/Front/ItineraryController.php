@@ -18,6 +18,7 @@ class ItineraryController extends Controller
     public function search_post(){
 
         $search = \Request::get('s');
+        $data = [];
         if($search!=null){
             $data = DB::table('itineraries')
                 ->where('source','LIKE',"%$search%")
@@ -27,7 +28,7 @@ class ItineraryController extends Controller
                 'data'=>$data
             ],200);
         }else{
-           return $this->index();
+           return $data;
         }
 
     }
@@ -45,7 +46,7 @@ class ItineraryController extends Controller
         $destination = $request->destination;
         $tourtype = $request->tourtype;
         $noofday = $request->noofday;
-        if(count($source) > 1){ // Search on the basis of their title of the itinerary
+        if(count($source) > 1){ // Search on the basis of source of the itinerary
             $data = DB::table('itineraries')
                 ->where('noofdays',$noofday)
                 ->whereIn('source',$source)
@@ -86,5 +87,10 @@ class ItineraryController extends Controller
         }
         
         return response()->json($tour_data);
+    }
+    
+    public function list($count=8)
+    {
+        return response()->json(Itinerary::simplePaginate($count));
     }
 }

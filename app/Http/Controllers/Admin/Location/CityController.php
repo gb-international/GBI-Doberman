@@ -11,6 +11,7 @@ use App\Model\Location\City;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CityCollection;
+use App\Rules\AlphaSpace;
 
 class CityController extends Controller
 {
@@ -19,9 +20,15 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all($size)
+    {
+        return response()->json(City::with('state')
+            ->latest('updated_at')
+            ->paginate($size));
+    }
     public function index()
     {
-        return new CityCollection(City::get());
+        return CityCollection::collection(City::with('state')->get());
     }
 
     /**
@@ -42,11 +49,7 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateCity($request);
-        $city = new City();
-        $name = $request->name.','.$request->country_name;
-        $city->name = $name;
-        $city->save();
+        City::create($this->validateCity($request));
        return response()->json(['Message'=> 'Successfully Added...']);
     }
 
@@ -81,7 +84,12 @@ class CityController extends Controller
      */
     public function update(Request $request, City $city)
     {   
-        $city->update($this->validateCity($request));
+        $validated =  $this->validate($request, [
+            'name' => ['required',new AlphaSpace],
+            'country_id' => 'required',
+            'state_id' => 'required',
+        ]);
+        $city->update($validated);
         return response()->json(['message'=>'Successfully Updated']);
     }
 
@@ -100,7 +108,9 @@ class CityController extends Controller
     public function validateCity($request)
     {
       return $this->validate($request, [
-        'name' => 'required|unique:cities',
+        'name' => ['required','unique:cities',new AlphaSpace],
+        'country_id' => 'required',
+        'state_id' => 'required',
       ]);
     }
 }

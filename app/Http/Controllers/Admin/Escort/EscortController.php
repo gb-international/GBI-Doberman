@@ -11,6 +11,11 @@ use App\Http\Resources\EscortCollection;
 use App\Model\Escort\Escort;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Helpers\SendSms;
+
+use App\Rules\EmailValidate;
+use App\Rules\PhoneNubmerValidate;
+use App\Rules\AlphaSpace;
 
 class EscortController extends Controller
 {
@@ -19,6 +24,14 @@ class EscortController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function all($size)
+    {
+        return response()->json(Escort::select([
+            'id','salaryPerday','name','phoneno','email'
+            ])
+            ->latest('updated_at')
+            ->paginate($size));
+    }
     public function index()
     {
         return new EscortCollection(Escort::all());
@@ -92,15 +105,24 @@ class EscortController extends Controller
         $escort->delete();
         return response()->json('successfully deleted');
     }
+    
+    public function sendLink(Request $request)
+    {
+        $sendsms = new SendSms;
+        $get = $sendsms->escortLoginLink($request->escort_phone_no,$request->name);
+        
+        return response()->json('successfully Sent');
+    }
+
 
     // Validate Escort
     public function validateEscort($request)
     {
       return $this->validate($request, [
-            'name' => 'required|min:3|max:100',
+            'name' => ['required',new AlphaSpace],
+            'email' => ['required','email',new EmailValidate],
+    		'phoneno' => ['required','numeric',new PhoneNubmerValidate],
             'address' => 'required|min:3',
-            'email' => 'required',
-            'phoneno' => 'required|numeric|digits:10',
             'salaryPerday' => 'required|numeric|min:1'
       ]);
     }

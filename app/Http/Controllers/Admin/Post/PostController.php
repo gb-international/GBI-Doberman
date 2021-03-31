@@ -1,4 +1,9 @@
 <?php
+/* 
+Created by : Ajay yadav 
+Purpose : GBI Post (Blog ) manage here
+
+*/
 
 namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
@@ -58,10 +63,10 @@ class PostController extends Controller
         foreach ($request->tags as $tag) {
             array_push($tag_id,$tag['id']);
         }
-
         if($request->image){
             $imagename = explode('.',$request->image[0]['name'])[0];
-            $data['image'] = $this->singleFile($request->image[0]['file'],'/images/post/',$imagename);
+
+            $data['image'] = $this->AwsFileUpload($request->image[0]['file'],config('gbi.post_image'),$imagename);
             $data['alt'] = $imagename;
         }
 
@@ -112,13 +117,15 @@ class PostController extends Controller
         foreach ($request->tags as $tag) {
             array_push($tag_id,$tag['id']);
         }
-        
-        
         if($request->image){
             $imagename = explode('.',$request->image[0]['name'])[0];
-            $data['image'] = $this->singleFile($request->image[0]['file'],'/images/post/',$imagename);
-            $this->deleteImg("/images/post/{$post->image}");
-            $data['alt'] = $imagename;
+            if($imagename){
+                $data['image'] = $this->AwsFileUpload($request->image[0]['file'],config('gbi.post_image'),$imagename);
+                $this->AwsDeleteImage($post->image);
+                $data['alt'] = $imagename;
+            }
+        }else{
+            unset($data['image']);
         }
 
         $post->update($data);
@@ -134,8 +141,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $path = '/images/post/'.$post->image;
-        $this->deleteImg($path);
+        $this->AwsDeleteImage($post->image);
         $post->delete();
         return response()->json('successfully deleted');
     }

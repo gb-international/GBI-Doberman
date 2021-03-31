@@ -53,11 +53,11 @@
                   id="studentCheckbox"
                   v-model="selectAll"
                   title="Select All"
-                /><label class="form-check-label font-12" for="studentCheckbox">All</label>
+                /><label class="form-check-label font-12" for="studentCheckbox"></label>
               </div>
               <div v-else>#</div>
             </th>
-            <th >Sr.No</th>
+            <th class="w-80">Sr no</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th class="width-260">Email</th>
@@ -72,7 +72,7 @@
                   <input class="form-check-input" type="checkbox" :value="data" :id="data.id" @change="checkedBox()" v-model="selected">
                 </div>
               </td>
-              <td class="text-center pt-2">{{ index + 1}}</td>
+              <td class="text-center padding-top-10">{{ index + 1}}</td>
               <td>
                 <input
                   type="text"
@@ -188,43 +188,39 @@
         </table>
 
         <p class="text-danger font-weight-bold" v-if="this.error==true">{{ message }}</p>
+      </div>
 
-        <!-- Buttons -->
-        <div class="row reservation_bottom w-100 mt-5 mb-5 justify-content-center text-center">
-          <div class="col-sm-4 pt-1">
-            <button
-              type="button"
-              class="btn btn-default itrn_add_btn"
-              @click="demoFromHTML()"
-            >DOWNLOAD PDF</button>
-          </div>
+      <!-- Buttons -->
+      <div class="row w-100 mt-5 mb-5 justify-content-center text-center">
+        <div class="col-sm-5 m-0 p-0">
+          <button
+            type="button"
+            class="btn btn-default itrn_add_btn"
+            @click="generatePdf"
+          >DOWNLOAD PDF</button>
+        </div>
 
-          <div class="col-sm-5 pt-1">
-            <button
-              type="button"
-              class="btn btn-default itrn_add_btn"
-              @click="UserGroupSave()"
-              :disabled="new_row_add == false"
-            >UPDATE</button>
-          </div>
-          <div class="col-sm-3 add-row-input-button p-0 m-0 text-left">
-            <div class="row  p-0 m-0">
-              <div class="col-sm-5  p-0 m-0">
-                <small>Add Row</small>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Add Row.."
-                  v-model="row_input"
-                />
-              </div>
-              <div class="col-sm-5 pt-24">
-                <button class="btn btn-info text-white" type="button" @click="add_row()">Go</button>
-              </div>
-              <div class="col-sm-2"></div>
+        <div class="col-sm-5 m-0 p-0">
+          <button
+            type="button"
+            class="btn btn-default itrn_add_btn"
+            @click="UserGroupSave()"
+            :disabled="new_row_add == false"
+          >UPDATE</button>
+        </div>
+
+        <div class="col-sm-2 p-0 add-row-input-button text-left mt-29">
+          <div class="input-group mb-3">
+            <input
+            type="number"
+            class="form-control"
+            placeholder="Add Row.."
+            v-model="row_input"
+          />
+            <div class="input-group-append">
+              <button class="btn btn-info text-white pl-2" type="button" @click="add_row()">Go</button>
             </div>
-        
-          </div>
+          </div>          
         </div>
       </div>
     </div>
@@ -233,11 +229,10 @@
 
 <script>
 import { Form, HasError, AlertError } from "vform";
-import jsPDF from "jspdf";
 import XLSX from "xlsx";
 import GroupExcelUpload from '@/admin/mixins/GroupExcelUpload';
 export default {
-  name: "AddGroup",
+  name: "AddGroupStudentExcel",
   mixins:[GroupExcelUpload],
   components: {
     "has-error": HasError,
@@ -255,6 +250,7 @@ export default {
   },
 
   methods: {
+    
     add_row() {
       for (var i = 0; i < this.row_input; i++) {
         this.new_row.push({
@@ -280,31 +276,7 @@ export default {
         }
       });
     },
-    demoFromHTML() {
-      var doc = new jsPDF();
-      doc.setFont("courier");
-      doc.setFontStyle("normal");
-      doc.setFontSize(10);
-      var string = "";
-      for (var i = 0; i <= this.total_row.length - 1; i++) {
-        let current = this.total_row[i];
-        string +=
-          "first_name : " +
-          current.first_name +
-          " , last_name : " +
-          current.last_name +
-          " , Gender :" +
-          current.gender +
-          " , Age : " + 
-          current.age +
-          " , Contact : " +
-          current.mobile +
-          "\n";
-      }
-      doc.text(string, 10, 10);
-      doc.save("sample.pdf");
-    },
-    
+
     changeExcelFile(event) {
       var vm = this;
       let file = event.target.files[0];

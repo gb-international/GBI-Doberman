@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">  
     <meta name="csrf-token" content="{{ csrf_token() }}">    
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
     {{-- <link href="{{ asset('css/admin/app.css') }}" rel="stylesheet"> --}}
     <link href="{{ secure_asset('css/admin/app.css') }}" rel="stylesheet">
      
@@ -19,7 +19,9 @@
   <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light" id="sidebarnavigation">
       <!-- SEARCH FORM -->
-      
+      <div class="navbar-nav">
+        <admin-nav-top />
+      </div>
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">

@@ -16,11 +16,12 @@ to submit the data we are using a function.
           <div class="col-sm-4">
             <div class="form-group">
               <label for="city_id">Select City</label>
-              <model-select
-                :options="options"
+
+              <dropdown-list class="mb-2" 
+                :itemList="options" 
                 v-model="form.city_id"
-                placeholder="From"
-              ></model-select>
+              />
+
               <has-error :form="form" field="city_id"></has-error>
             </div>
           </div>
@@ -57,7 +58,7 @@ to submit the data we are using a function.
             <div class="form-group">
               <label for="contact_number">Contact number</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 v-model="form.contact_number"
                 :class="{ 'is-invalid': form.errors.has('contact_number') }"
@@ -91,14 +92,16 @@ import { Form, HasError, AlertError } from "vform";
 import { ModelSelect } from "vue-search-select";
 import FormButtons from "@/admin/components/buttons/FormButtons.vue";
 import FormLayout from "@/admin/components/layout/FormLayout.vue";
+import DropdownList from "@/admin/components/form/DropdownList.vue";
 export default {
-  name: "New",
+  name: "NewRestaurant",
   components: {
     Form,
     "has-error": HasError,
     ModelSelect,
     "form-buttons": FormButtons,
     "form-layout": FormLayout,
+    "dropdown-list": DropdownList
   },
   data() {
     return {
@@ -125,15 +128,18 @@ export default {
         });
     },
     cityList() {
-      axios.get("/api/city").then((response) => {
-        for (var i = 0; i < response.data.data.length; i++) {
-          this.options.push({
-            value: response.data.data[i].id,
-            text: response.data.data[i].name,
-          });
+      axios.get(`/api/city`).then((res) => {
+        if (res) {
+          for(let i = 0;i<res.data.data.length;i++){
+            this.options.push({
+              name:res.data.data[i].name,
+              id:res.data.data[i].id
+            });
+          }
         }
       });
     },
+
     UpdateRestaurant() {
       this.form
         .put(`/api/restaurants/${this.$route.params.id}`)

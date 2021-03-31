@@ -9,9 +9,11 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Itinerary\Itinerary;
+use App\Model\Itinerary\Itineraryrequest;
 use App\Model\Tour\Tourprogram;
-
+use App\Rules\EmailValidate;
 use DB;
+use App\Jobs\SendItineraryRequestToGbiMailJob;
 
 class ItineraryController extends Controller
 {
@@ -39,9 +41,13 @@ class ItineraryController extends Controller
     {
         $this->validate($request, [
             'tourtype' => 'required',
-            'noofday' => 'required'
+            'noofday' => 'required',
+            'source' => 'required',
+            'destination' => 'required',
         ]);
-        
+
+        $data = [];
+        $newdata = [];
         $source = $request->source;
         $destination = $request->destination;
         $tourtype = $request->tourtype;
@@ -57,15 +63,32 @@ class ItineraryController extends Controller
         }
        // return  $request->all();
         if($source !=null ){
-            $data = DB::table('itineraries')
-                ->where('noofdays',$noofday)
-                ->whereIn('source',$source)
-                ->OrWhereIn('destination',$destination)
-                ->get();
-            return response()->json([
-                'data'=>$data
-            ],200);
+            $source = explode(",",$request->source[0])[0];
+            $destination = explode(",",$request->destination[0])[0];
+            $data = Itinerary::where([
+                'source'=>$source,
+                'destination'=>$destination,
+                'noofdays' => $noofday,
+            ])
+            ->with('tourtypes')
+            ->get();
         }
+        // return $request->all();
+        if($data){
+            foreach($data as $d){
+                $tourtypes = DB::table('itinerary_tourtype')
+                    ->where([
+                        'itinerary_id' => $d->id,
+                        'tourtype_id' => $request->tourtype
+                    ])->first();
+                if($tourtypes){
+                    array_push($newdata,$d);
+                }
+            }
+        }
+        return response()->json([
+            'data'=>$newdata
+        ],200);
     }
 
 
@@ -92,5 +115,29 @@ class ItineraryController extends Controller
     public function list($count=8)
     {
         return response()->json(Itinerary::simplePaginate($count));
+    }
+
+    public function requestItinerary(Request $request){
+        $validated = $this->validate($request, [
+            'tourtype' => 'required',
+            'noofday' => 'required',
+            'source' => 'required',
+            'destination' => 'required',
+            'phoneno' => 'required',
+            'email' => ['required',new EmailValidate],
+        ]);
+        
+        Itineraryrequest::create($validated);
+
+        SendItineraryRequestToGbiMailJob::dispatch($validated);
+
+    }
+
+    public function view($id){
+        $data = Itinerary::where('id',$id)->with([
+            'tourtypes',
+            'itinerarydays'
+        ])->first();
+        return response()->json($data);
     }
 }

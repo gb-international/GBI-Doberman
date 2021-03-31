@@ -90,15 +90,13 @@ to submit the data we are using a function.
           <div class="col-sm-6">
             <div class="form-group">
               <label for="meta_keyword">Status</label>
-              <select
-                class="form-control select-field"
-                v-model="form.status"
-                :class="{ 'is-invalid': form.errors.has('meta_keyword') }"
-              >
-                <option disabled value="" hidden>Select Status</option>
-                <option value="0">Draft</option>
-                <option value="1">Publish</option>
-              </select>
+
+               <dropdown-filter class="mb-2" 
+                :itemList="status_list" 
+                @update:option="updateStatus" 
+                :selectedId="form.status"
+              />
+              
               <has-error :form="form" field="meta_keyword"></has-error>
             </div>
           </div>
@@ -106,12 +104,11 @@ to submit the data we are using a function.
           <div class="col-sm-6">
             <div class="form-group">
               <label for="categories">Category</label>
-              <select class="form-control select-field" v-model="form.category_id">
-                <option disabled value="">Select Category</option>
-                <option v-for="cat in categories" :key="cat.id" :value="cat.id">
-                  {{ cat.title }}
-                </option>
-              </select>
+              <dropdown-filter class="mb-2" 
+                :itemList="categories" 
+                @update:option="UpdateCategory" 
+                :selectedId="form.category_id"
+              />
 
               <has-error :form="form" field="categories"></has-error>
             </div>
@@ -170,39 +167,33 @@ to submit the data we are using a function.
 
 <script>
 import { Form, HasError } from "vform";
-import { VueEditor, Quill } from "vue2-editor";
-import { ImageDrop } from "quill-image-drop-module";
-import ImageResize from "quill-image-resize-module";
+import Vue2EditorMixin from '@/admin/mixins/Vue2EditorMixin';
 import "vue-search-select/dist/VueSearchSelect.css";
 import Multiselect from "vue-multiselect";
 import FormButtons from "@/admin/components/buttons/FormButtons.vue";
 import FormLayout from "@/admin/components/layout/FormLayout.vue";
+import DropdownFilter from "@/admin/components/form/DropdownFilter.vue";
 
 export default {
-  name: "New",
+  name: "NewPost",
   components: {
     Form,
     "has-error": HasError,
-    "vue-editor": VueEditor,
     Multiselect,
     "form-buttons": FormButtons,
     "form-layout": FormLayout,
+    "dropdown-filter": DropdownFilter,
   },
+  mixins:[Vue2EditorMixin],
   data() {
     return {
       img_image: false,
-      customModulesForEditor: [
-        { alias: "imageDrop", module: ImageDrop },
-        { alias: "imageResize", module: ImageResize },
-      ],
-      editorSettings: {
-        modules: {
-          imageDrop: true,
-          imageResize: {},
-        },
-      },
       categories: [],
       tags: [],
+      status_list:[
+        {name:"Draft",id:0},
+        {name:"Public",id:1}
+      ],
       form: new Form({
         title: "",
         description: "",
@@ -228,14 +219,24 @@ export default {
         setTimeout(() => $("#example").DataTable(), 1000);
         this.form.fill(response.data);
         this.form.image = [];
-        this.img_image = "/images/post/" + response.data.image;
+        this.img_image = response.data.image;
       });
     },
     getCategories() {
-      axios.get("/api/categories").then((response) => {
-        this.categories = response.data;
+      axios.get("/api/categories").then((res) => {
+        if (res) {
+          for(let i = 0;i<res.data.length;i++){
+            this.categories.push({
+              name:res.data[i].title,
+              id:res.data[i].id
+            });
+          }
+        }
       });
     },
+
+    UpdateCategory(v){ this.form.category_id = v.id },    
+    updateStatus(v){ this.form.status = v.id },
 
     getTags() {
       axios.get("/api/tags").then((response) => {
@@ -265,46 +266,6 @@ export default {
         this.img_image = event.target.result;
       };
       reader.readAsDataURL(file);
-    },
-    handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
-      var formData = new FormData();
-      formData.append("image", file);
-      axios({
-        url: "/api/images",
-        method: "POST",
-        data: formData,
-      })
-        .then((result) => {
-          let url = result.data.url; // Get url from response
-          Editor.insertEmbed(cursorLocation, "image", url);
-          resetUploader();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-
-    handleImageRemoved: function (file, Editor, cursorLocation, resetUploader) {
-      var formData = new FormData();
-      formData.append("image", file);
-      axios({
-        url: "/api/images/delete",
-        method: "POST",
-        data: formData,
-      })
-        .then((result) => {
-          console.log(result);
-          let url = result.data.url; // Get url from response
-          Editor.insertEmbed(cursorLocation, "image", url);
-          resetUploader();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-
-    imagePath() {
-      return "/images/post/" + this.form.image;
     },
     back() {
       this.$router.push("/posts");

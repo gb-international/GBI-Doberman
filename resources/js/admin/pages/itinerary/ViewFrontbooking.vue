@@ -21,8 +21,8 @@ It takes id from the url and get the data from the api .
           <h5>Itinerary</h5>
           <p>
             <router-link :to="`/view-itinerary/${booking.itinerary.id}`">{{
-              booking.itinerary.title
-            }}</router-link>
+              booking.itinerary.title}} (ID: {{ booking.itinerary.id}})
+            </router-link>
           </p>
         </div>
         <div class="col-sm-4">
@@ -91,7 +91,7 @@ It takes id from the url and get the data from the api .
 <script>
 import ViewLayout from "@/admin/components/layout/ViewLayout.vue";
 export default {
-  name: "View",
+  name: "ViewFrontBooking",
   components: {
     "view-layout": ViewLayout,
   },

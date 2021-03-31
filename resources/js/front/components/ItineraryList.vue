@@ -10,13 +10,13 @@
             <ImageSpinner class="image__spinner" />
             <img
               class="image__item"
-              :data-url="`/uploadimage/${itinerary.photo}`"
+              :data-url="itinerary.photo"
               :alt="itinerary.title"
             />
           </figure>
         </div>
         <div class="cardtext-col text-left">
-          <p class="m-0 font-13 pl-10 font-weight-bold">{{itinerary.title | sortlength(35,"")}}</p>
+          <p class="m-0 font-13 pl-10 font-weight-bold text-capitalize">{{itinerary.title | sortlength(35,"") | CapitalizeString }}</p>
           <p class="font-13 pl-10 mb-10">{{itinerary.noofdays}} Days Tour</p>
           <div class="pt-1 pb-2 pl-10">
             <div class="card-icon float-left p-0" v-if="itinerary.hotel_type != '0'">
@@ -25,7 +25,7 @@
               <span>Hotel</span>
             </div>
             <div class="card-icon float-left p-0" v-if="itinerary.train == 1">
-              <i class="fas fa-train" aria-hidden="true"></i>
+              <img src="/images/icons/bus.png" class="footer-icon-width">
               <br />
               <span>Train</span>
             </div>
@@ -40,9 +40,9 @@
               <span>Flight</span>
             </div>
             <div class="card-icon float-left p-0" v-if="itinerary.food != '0'">
-              <i class="fas fa-hotel" aria-hidden="true"></i>
+              <img src="/images/icons/dish.png" class="footer-icon-width">
               <br />
-              <span>utensils</span>
+              <span>Food</span>
             </div>
           </div>
         </div>

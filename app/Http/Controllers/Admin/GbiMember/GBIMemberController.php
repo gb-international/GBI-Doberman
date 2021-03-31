@@ -16,6 +16,11 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use App\Rules\EmailValidate;
 use App\Rules\AlphaSpace;
+use App\Rules\PhoneNubmerValidate;
+use Illuminate\Validation\Rule;
+use App\Jobs\GbiNewMemberWelcomeMailJob;
+
+
 class GBIMemberController extends Controller
 {
 
@@ -25,6 +30,7 @@ class GBIMemberController extends Controller
             'id','name','email','updated_at'
             ])
             ->where('user_role','1')
+            ->with(['UserRole:role_id,model_id','UserRole.role:id,name'])
             ->latest('updated_at')
             ->paginate($size));
     }
@@ -36,27 +42,32 @@ class GBIMemberController extends Controller
 
     public function register(Request $request){ 
 
-        $validator = Validator::make($request->all(), [ 
+        $this->validate($request, [ 
             'name' => ['required',new AlphaSpace],
             'address' => 'required|min:3',
             'email' => ['required','email',new EmailValidate],
+            'phone_no' => ['required','numeric',new PhoneNubmerValidate],
             'password' => 'required', 
             'c_password' => 'required|same:password', 
+            'role_name' => 'required',
+            'department_id' => 'required',
         ]);
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
-        }
+
+        // if ($validator->fails()) { 
+        //     return response()->json(['error'=>$validator->errors()], 401);            
+        // }
 
         $input = $request->all(); 
         $input['password'] = bcrypt($input['password']); 
         $user = User::create($input);
 
         $user->user_role = '1';
-        $user->user_type = $request->RoleName;
+        $user->department_id = $request->department_id;
+        $user->user_type = $request->role_name;
 
         $user->save();
 
-        $user->assignRole($request->RoleName);
+        $user->assignRole($request->role_name);
 
         // Add more information to the informations table
         
@@ -69,12 +80,70 @@ class GBIMemberController extends Controller
         $more->photo = 'user.png';
         $more->gender = '';
         $more->save();
+        // send mail 
+        $data = ['name'=>$user->name,'email'=>$user->email ];
+            
+        GbiNewMemberWelcomeMailJob::dispatch($data);
         // End more information 
         return response()->json('Successfully Registered !!!');
 
     }
 
-    public function destroy(User $user){
+    public function edit($id){
+        $user = User::select(['name','email','id','department_id'])
+            ->with([
+                'UserRole:role_id,model_id',
+                'UserRole.role:id,name',
+                'information:user_id,phone_no,address,dob',
+            ])->where('id',$id)
+            ->first();
+        return response()->json($user);
+    }
+
+   public function update(Request $request,$id){
+       $user = User::where('id',$id)->first();
+       $this->validate($request, [ 
+            'name' => ['required',new AlphaSpace],
+            'address' => 'required|min:3',
+            'email' => [
+                'required','email',new EmailValidate,
+                Rule::unique('users')->ignore($user->id)
+            ],
+            'phone_no' => ['required','numeric',new PhoneNubmerValidate],
+            'role_name' => 'required',
+            'department_id' => 'required',
+            'dob'=> 'required'
+            ]);
+        
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'department_id' => $request->department_id
+        ]);
+        $info = [
+            'user_id' => $user->id,
+            'phone_no' => $request->phone_no,
+            'address' => $request->address,
+            'dob' => $request->dob
+        ];
+        if($user->information){
+            $user->information->update($info);
+        }else{
+            Information::create($info);
+        }
+
+        if($request->old_role != $request->role_name){
+            if($request->old_role != ''){
+                $user->removeRole($request->old_role);
+            }
+            $user->assignRole($request->role_name);
+        }
+
+        return $user;
+   }
+
+    public function destroy($id){
+        $user = User::where('id',$id)->first();
         $user->delete();
         return response()->json('successfully deleted');
     }

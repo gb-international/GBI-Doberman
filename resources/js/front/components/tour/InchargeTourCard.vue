@@ -4,7 +4,7 @@
      if teacher has selected payment mode then show to user -->
     <div
       class="bg-cover text-white tour_list_card mt-3"
-      :style="{ backgroundImage: `url('/uploadimage/${tour.itinerary.detail_photo}')` }"
+      :style="{ backgroundImage: `url('${tour.itinerary.detail_photo}')` }"
     >
       <div class="container pt-4 font-weight-bold">
         
@@ -37,11 +37,9 @@
 
           </div>
           <div class="col p-0">
-            <router-link :to="`/group-member/${tour.tour_id}`">
-              <div class="text-cente bg-transparent-card p-t-15 pb-15 ml-1 text-white">
-                <img src="/images/icons/viewmemberlist.png" class="w-20 mr-1"> Group Members
-              </div>
-            </router-link>
+            <div class="text-cente bg-transparent-card p-t-15 pb-15 ml-1 text-white link" @click="AddGroupMember(tour.tour_id)">
+              <img src="/images/icons/viewmemberlist.png" class="w-20 mr-1"> Group Members
+            </div>
           </div>
         </div>
       </div>
@@ -59,10 +57,15 @@ export default {
       this.$cookies.set('tour_code',tour_code);
       this.$router.push('/tour-detail');
     },
+    AddGroupMember(tour_code){
+      this.$cookies.set('group_member_id',tour_code);
+      this.$router.push('/group-member');
+    },
     payTour(tour_id){
       this.$store.commit('PAYMENT_TOUR_DATA',{'tour_id':tour_id});
       this.$router.push('/tour-payment');
-    }
+    },
+
   }
 };
 </script>

@@ -16,12 +16,12 @@ to submit the data we are using a function.
             <!-- Source for the ititnerary  -->
             <div class="form-group">
               <label for="sourceId">Source</label>
-              <!-- <select class="form-control select-field" v-model="form.source">
-                <option value="" disabled hidden>Select Source</option>
-                <option v-for="data in cities" :value="data.name" :key="data.id">{{data.name }}</option>
-              </select> -->
 
-              <dropdown-filter class="mb-2" :itemList="options" @update:option="SourceUpdate"/>
+              <dropdown-list class="mb-2" 
+                :itemList="options" 
+                :select="`name`"
+                v-model="form.source"
+              />
 
               <has-error :form="form" field="source"></has-error>
             </div>
@@ -30,11 +30,12 @@ to submit the data we are using a function.
             <!-- Desctiantion for the itinerary -->
             <div class="form-group">
               <label for="destinationId">Destination</label>
-              <!-- <select class="form-control select-field" v-model="form.destination">
-                <option value="" disabled hidden>Select Source</option>
-                <option v-for="data in cities" :value="data.name" :key="data.id">{{data.name }}</option>
-              </select> -->
-              <dropdown-filter class="mb-2" :itemList="options" @update:option="DestinationUpdate"/>
+
+              <dropdown-list class="mb-2" 
+                :itemList="options" 
+                :select="`name`"
+                v-model="form.destination"
+              />
 
               <has-error :form="form" field="destination"></has-error>
             </div>
@@ -326,6 +327,12 @@ to submit the data we are using a function.
               <label for="descriptionId">Description</label>
 
               <vue-editor
+                :customModules="customModulesForEditor"
+                :editorOptions="editorSettings"
+                id="editor"
+                useCustomImageHandler
+                @image-added="handleImageAdded"
+                @image-removed="handleImageRemoved"
                 v-model="form.description"
                 :class="{ 'is-invalid': form.errors.has('description') }"
               ></vue-editor>
@@ -385,27 +392,21 @@ to submit the data we are using a function.
           <div class="row">
             <div class="col-sm-6">
               <label>Source</label>
-              <select class="form-control select-field" v-model="data.day_source">
-                <option value="" disabled hidden>Select Source</option>
-                <option v-for="data in cities" :value="data.name" :key="data.id">{{data.name }}</option>
-              </select>
-              <!-- <model-select
-                :options="options"
+
+              <dropdown-list class="mb-2" 
+                :itemList="options" 
+                :select="`name`"
                 v-model="data.day_source"
-                placeholder="From"
-              ></model-select> -->
+              />
+
             </div>
             <div class="col-sm-6">
               <label>Destination</label>
-              <select class="form-control select-field" v-model="data.day_destination">
-                <option value="" disabled hidden>Select Source</option>
-                <option v-for="data in cities" :value="data.name" :key="data.id">{{data.name }}</option>
-              </select>
-              <!-- <model-select
-                :options="options"
+              <dropdown-list class="mb-2" 
+                :itemList="options" 
+                :select="`name`"
                 v-model="data.day_destination"
-                placeholder="To"
-              ></model-select> -->
+              />
             </div>
 
             <div class="col-sm-12">
@@ -413,6 +414,12 @@ to submit the data we are using a function.
               <vue-editor
                 v-model="data.day_description"
                 :class="{ 'is-invalid': form.errors.has('description') }"
+                :customModules="customModulesForEditor"
+                :editorOptions="editorSettings"
+                id="editor"
+                useCustomImageHandler
+                @image-added="handleImageAdded"
+                @image-removed="handleImageRemoved"
               ></vue-editor>
             </div>
           </div>
@@ -429,23 +436,22 @@ to submit the data we are using a function.
 import { ModelSelect } from "vue-search-select";
 import Multiselect from "vue-multiselect";
 import { Form, HasError, AlertError } from "vform";
-import { VueEditor, Quill } from "vue2-editor";
-
+import Vue2EditorMixin from '@/admin/mixins/Vue2EditorMixin';
 import FormButtons from "@/admin/components/buttons/FormButtons.vue";
 import FormLayout from "@/admin/components/layout/FormLayout.vue";
-import DropdownFilter from "@/admin/components/form/DropdownFilter.vue";
+import DropdownList from "@/admin/components/form/DropdownList.vue";
 export default {
   name: "NewItinerary",
   components: {
     ModelSelect,
     Multiselect,
-    VueEditor,
     Form,
     "has-error": HasError,
     "form-buttons": FormButtons,
     "form-layout": FormLayout,
-    "dropdown-filter":DropdownFilter
+    "dropdown-list":DropdownList,
   },
+  mixins:[Vue2EditorMixin],
   data() {
     return {
       options: [],
@@ -463,6 +469,8 @@ export default {
         hoteltype: "0",
         photo: "",
         detail_photo: "",
+        photo_alt:'',
+        detail_photo_alt:'',
         food: "",
         flight: "",
         bus: "",
@@ -488,12 +496,11 @@ export default {
   methods: {
     cityList() {
       axios.get("/api/city").then((res) => {
-        this.cities = res.data.data;
         if (res.data) {
           for(let i = 0;i<res.data.data.length;i++){
             this.options.push({
               name:res.data.data[i].name,
-              id:res.data.data[i].id
+              id:res.data.data[i].name
             });
           }
         }
@@ -516,6 +523,7 @@ export default {
         let reader = new FileReader();
         reader.onload = (event) => {
           this.form.photo = event.target.result;
+          this.form.photo_alt = file.name;
         };
         reader.readAsDataURL(file);
       }
@@ -532,6 +540,7 @@ export default {
         let reader = new FileReader();
         reader.onload = (event) => {
           this.form.detail_photo = event.target.result;
+          this.form.detail_photo_alt = file.name;
         };
         reader.readAsDataURL(file);
       }
@@ -555,18 +564,7 @@ export default {
           });
           return false;
         }
-        // this.form.itinerarydays[i]["day_source"] = this.form.itinerarydays[i][
-        //   "day_source"
-        // ].value;
-        // this.form.itinerarydays[i]["day_destination"] = this.form.itinerarydays[
-        //   i
-        // ]["day_destination"].value;
-        //
       }
-      // this.form.source = this.form["source"].value;
-      // this.form.destination = this.form["destination"].value;
-      // add noofdays fields data to form data
-      // Submit form
       this.form
         .post("/api/itinerary")
         .then((response) => {
@@ -597,14 +595,11 @@ export default {
       var index = this.form.itinerarydays.length - 1;
       this.form.itinerarydays.splice(index, 1);
     },
+    SourceUpdateDay(value){
+      console.log(value);
+    }
 
-    SourceUpdate(value){
-      this.form.source = value.name;
-    },
-    
-    DestinationUpdate(value){
-      this.form.destination = value.name;
-    },
+
   },
 };
 </script>

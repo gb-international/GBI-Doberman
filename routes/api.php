@@ -25,6 +25,7 @@ Route::namespace('Front')->group(function(){
 	Route::post('/search-itinerary','ItineraryController@searchItinerary');
 	Route::get('/search','ItineraryController@search_post');
 	Route::get('/itinerary-list/{count?}','ItineraryController@list');
+	Route::get('/itinerary-view/{id}','ItineraryController@view');
 
 	Route::post('/user-logout','FrontUserController@logout');
 	Route::get('/tour-list/{id}','FrontUserController@user_tour_list');
@@ -46,6 +47,10 @@ Route::namespace('Front')->group(function(){
 	Route::post('login-user', 'AuthController@login');
 	Route::post('register-user', 'AuthController@register');
 	Route::post('refreshtoken','AuthController@refresh');
+
+	// Related Cities
+	Route::get('/related-cities/{id}','LocationController@relatedCities');
+	Route::get('/regional-cities/{region}','LocationController@regionalCities');
 
 	Route::group(['middleware' => 'auth:api'], function(){
 		Route::post('details', 'UserController@details');
@@ -86,7 +91,7 @@ Route::namespace('Front')->group(function(){
 	Route::get('/encyclopedia-list','EncyclopediaController@index');
 	Route::get('/encyclopedia/{slug}','EncyclopediaController@view');
 	Route::get('/ency-comments/{id}','EncyclopediaController@GetComment');
-
+	Route::get('/pdf/{slug}','EncyclopediaController@Pdf');
 	Route::get('/city-list','LocationController@cityList');
 
 	// Gallery
@@ -95,6 +100,9 @@ Route::namespace('Front')->group(function(){
 
 	// Subscriber
 	Route::post('subscribe','SubscriberController@store');
+
+	// requrest itinerary
+	Route::post('/request-itinerary','ItineraryController@requestItinerary');
 });
 
 

@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import axios from "axios";
-import clickOutside from "@/admin/directive/click-away.js";
+import "@/admin/directive/click-away.js";
 
 export default {
+  name:"DropDownFilter",
   props: {
     itemList:{
       type:Array,
@@ -55,7 +55,7 @@ export default {
     selectedId:undefined,
     placeholder:{
       type:String,
-      default:'Enter an item name to search'
+      default:'Enter name to search'
     }
   },
   data() {

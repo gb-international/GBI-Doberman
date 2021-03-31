@@ -5,7 +5,7 @@
     <div class="row justify-content-center" style="margin:auto;">
         <div class="col-md-4" id="admin_login_form">
         
-            <p class="text-center"><img src="{{asset('assets/admin/default/icon/logo.png')}}"></p>
+            <p class="text-center"><img src="{{secure_asset('assets/admin/default/icon/logo.png')}}"></p>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 

@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 // Route::post('/payment','Front\PaymentController@payment');
-
+// Route::group(['middleware' => ['auth:api'],'namespace'=>'Front'],function(){
 Route::namespace('Admin')->group(function (){
 
 	Route::namespace('Transport')->group(function(){
@@ -46,6 +46,12 @@ Route::namespace('Admin')->group(function (){
 		Route::get('itinerary/all/{size}','ItineraryController@all');
 		Route::resource('itinerary','ItineraryController');
 		Route::get('itinerarydayget/{id}','ItinerarydayController@index');
+
+
+		Route::get('itineraryrequst/all/{size}','ItineraryrequestController@all');
+		Route::get('itineraryrequst/{id}','ItineraryrequestController@show');
+		Route::delete('itineraryrequst/{id}','ItineraryrequestController@Destroy');
+		
 	});
 
 	Route::namespace('Tour')->group(function(){
@@ -144,8 +150,13 @@ Route::namespace('Admin')->group(function (){
 		Route::get('/members/all/{size}','GBIMemberController@all');
 		Route::get('/members','GBIMemberController@index');
 		Route::post('/members/create','GBIMemberController@register');
+		Route::get('/members/{id}/edit','GBIMemberController@edit');
+		Route::put('/members/{id}','GBIMemberController@update');
 		Route::post('/members/destroy/{user}',"GBIMemberController@destroy");
+		Route::delete('/members/{id}',"GBIMemberController@destroy");
 		Route::get('/members/salesman',"GBIMemberController@memberType");
+		Route::get('/departments/all/{size}','DepartmentController@all');
+		Route::resource('/departments',"DepartmentController");
 	});
 	Route::namespace('Account')->group(function(){
 		Route::get('/accounts/all/{size}','AccountController@all');
@@ -154,6 +165,7 @@ Route::namespace('Admin')->group(function (){
 
 	Route::namespace('Encyclopedia')->group(function(){
 		Route::post('/encyclopedia-img','EncyclopediaController@deleteImage');
+		Route::post('/encyclopedia-pdf','EncyclopediaController@deletePdf');
 		Route::get('encyclopedias/all/{size}','EncyclopediaController@all');
 		Route::resource('encyclopedias','EncyclopediaController');
 		Route::resource('encyclopediacomments','EncyclopediacommentController');

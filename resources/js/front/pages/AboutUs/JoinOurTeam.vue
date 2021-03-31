@@ -6,7 +6,7 @@
   <div id="joinOurteam">
     <div class="career_banner text_on_image banner_bg">
       <div class="content">
-        <p class="heading">JOIN OUR TEAM</p>
+        <p class="heading">Join Our Team</p>
       </div>
     </div>
 
@@ -14,8 +14,8 @@
       <!-- End banner area -->
       <section>
         <article class="join-team">
-          <div class="container">
-            <h1 class="text-center">JOIN OUR BRILLIANT MINDS</h1>
+          <div class="container pb-5">
+            <heading class="text-center" text="Join Our Brilliant Minds" />
             <form
               role="form"
               method="POST"
@@ -145,10 +145,10 @@
                         type="file"
                         @change="onFileChange"
                         :class="{ 'is-invalid': form.errors.has('resume') }"
-                        accept=".pdf, .doc, .docx"
+                        accept=".pdf"
                       />
                       <has-error :form="form" field="resume"></has-error>
-                      <span v-if="filename">{{ filename }}</span>
+                      <span v-if="form.filename">{{ form.filename }}</span>
                     </div>
                     <p>
                       <small>Please uplod PDF file only</small>
@@ -170,7 +170,7 @@
                 </div>
               </div>
               <div class="text-center">
-                <button type="submit" class="btn profile_button mb-5" value="Submit">
+                <button type="submit" class="btn profile_button" value="Submit">
                   Submit
                 </button>
               </div>
@@ -184,6 +184,7 @@
 
 <script>
 import { Form, HasError } from "vform";
+import Heading from '@/front/components/layout/Heading.vue';
 export default {
   name: "JoinOurTeam",
   metaInfo: {
@@ -207,10 +208,10 @@ export default {
   },
   components: {
     HasError,
+    Heading,
   },
   data() {
     return {
-      filename: "",
       form: new Form({
         firstname: "",
         lastname: "",
@@ -222,6 +223,7 @@ export default {
         zipcode: "",
         postvancy: "",
         resume: "",
+        filename: "",
         messagescon: "",
       }),
       positions:["Business Development Executive (Delhi)","Business Development Executive (Punjab)", "Business Development Executive (Hyderabad)", "Software Developer", "Business Lead Generation Executive"],
@@ -242,8 +244,8 @@ export default {
       if (!files.length) return;
 
       this.createImage(files[0]);
-      var fileData = event.target.files[0];
-      this.filename = fileData.name;
+      var fileData = e.target.files[0];
+      this.form.filename = fileData.name;
     },
     createImage(file) {
       var image = new Image();
@@ -260,7 +262,7 @@ export default {
         .post("/api/join-our-team/send")
         .then((response) => {
           this.form.reset();
-          this.filename = "";
+          this.form.filename = "";
           this.$swal.fire(
             "Successfully Submited!",
             "Your resume has been sent to HR Deparment..",

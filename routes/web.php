@@ -9,8 +9,6 @@ use App\Mail\PasswordResetMail;
 use App\Mail\WelcomeMail;
 
 
-
-
 Route::post('/payment','Front\PaymentController@payment');
 Route::post('/response','Front\PaymentController@response');
 Route::post('/cancel','Front\PaymentController@cancel');
@@ -94,6 +92,6 @@ Route::group(['middleware' => ['web']], function () {
 }); 
 
 Route::get('escort/{any}', 'Escort\AppController@index')->where('any', '.*');
-
+Route::get('admin/{any}', 'HomeController@index')->where('any', '.*');
 Route::get('/{any}', 'Front\AppController@get')->where('any', '.*');
 

@@ -12,7 +12,6 @@ It takes id from the url and get the data from the api .
     ****************************************************-->
     <div class="row justify-content-around">
       <div class="col-md-12">
-        <img class="back-icon cursor-pointer pl-4" @click="goBack()" src="/assets/front/icons/back.png">
         <div class="container container_admin_body">
           <div class="row">
             <div class="col-sm-4">
@@ -42,12 +41,12 @@ It takes id from the url and get the data from the api .
           <div class="row m-30 tour_list_block">
             <div class="col-sm-3 mb-3">
               <router-link :to="`/booked-tour-manager/${tour.id}`">
-                <img :src="`assets/admin/default/icon/tour-manager.png`" />
+                <img :src="`/assets/admin/default/icon/tour-manager.png`" />
               </router-link>
             </div>
             <div class="col-sm-3 mb-3">
               <router-link :to="`/booked-tour-hotel/${tour.id}`">
-                <img :src="`assets/admin/default/icon/hotel.png`" />
+                <img :src="`/assets/admin/default/icon/hotel.png`" />
               </router-link>
             </div>
 
@@ -55,44 +54,44 @@ It takes id from the url and get the data from the api .
               <router-link
                 :to="`/booked-tour-restaurant/${tour.id}/${tour.tour_id}`"
               >
-                <img :src="`assets/admin/default/icon/restaurant.png`" />
+                <img :src="`/assets/admin/default/icon/restaurant.png`" />
               </router-link>
             </div>
 
             <div class="col-sm-3 mb-3 m-30">
               <router-link :to="`/booked-tour-flight/${tour.id}`">
-                <img :src="`assets/admin/default/icon/airlines.png`" />
+                <img :src="`/assets/admin/default/icon/airlines.png`" />
               </router-link>
             </div>
 
             <div class="col-sm-3 mb-3 m-30">
               <router-link :to="`/booked-tour-train/${tour.id}`">
-                <img :src="`assets/admin/default/icon/train-icon.png`" />
+                <img :src="`/assets/admin/default/icon/train-icon.png`" />
               </router-link>
             </div>
 
             <div class="col-sm-3 mb-3 m-30">
               <router-link :to="`/booked-tour-bus/${tour.id}`">
-                <img :src="`assets/admin/default/icon/bus-icon.png`" />
+                <img :src="`/assets/admin/default/icon/bus-icon.png`" />
               </router-link>
             </div>
             <div class="col-sm-3 mb-3 m-30">
               <router-link
                 :to="`/booked-tour-student/${school.id}/${tour.tour_id}`"
               >
-                <img :src="`assets/admin/default/icon/student.png`" />
+                <img :src="`/assets/admin/default/icon/student.png`" />
               </router-link>
             </div>
 
             <div class="col-sm-3 mb-3 m-30">
               <router-link :to="`/payments/${school.id}/${tour.tour_id}`">
-                <img :src="`assets/admin/default/icon/payment.png`" />
+                <img :src="`/assets/admin/default/icon/payment.png`" />
               </router-link>
             </div>
 
             <div class="col-sm-3 mb-3 m-30">
               <router-link :to="`/foods/${tour.id}/${tour.tour_id}`">
-                <img :src="`assets/admin/default/icon/snacks.png`" />
+                <img :src="`/assets/admin/default/icon/snacks.png`" />
               </router-link>
             </div>
 
@@ -100,7 +99,7 @@ It takes id from the url and get the data from the api .
               <router-link
                 :to="`/booked-sightseen/${tour.id}/${tour.tour_id}/${itinerary.id}`"
               >
-                <img :src="`assets/admin/default/icon/sightseeing.png`" />
+                <img :src="`/assets/admin/default/icon/sightseeing.png`" />
               </router-link>
             </div>
             
@@ -108,7 +107,7 @@ It takes id from the url and get the data from the api .
               <router-link
                 :to="`/escort-update/${tour.id}/${tour.tour_id}`"
               >
-                <img :src="`assets/admin/default/icon/escort_Update.png`" />
+                <img :src="`/assets/admin/default/icon/escort_Update.png`" />
               </router-link>
             </div>
 
@@ -455,29 +454,28 @@ It takes id from the url and get the data from the api .
                   <div class="col-sm-5">
                     <button
                       type="button"
-                      class="btn text-white"
+                      class="btn text-white btn-gbi"
                       @click="submitForm()"
                     >
                       SAVE
                     </button>
                   </div>
-                  <div class="col-sm-3 pt-2 text-right">Add Row :</div>
-
-                  <div class="col-sm-4">
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-5 align-self-right">
                     <div class="input-group">
                       <input
                         type="number"
                         class="form-control"
                         v-model="row_input"
-                        placeholder="1"
+                        placeholder="Add Row.."
                       />
                       <div class="input-group-append">
                         <button
-                          class="btn text-white"
+                          class="btn text-white btn-gbi"
                           type="button"
                           @click="add_row()"
                         >
-                          <i class="fa fa-search"></i>
+                          Go
                         </button>
                       </div>
                     </div>
@@ -494,7 +492,7 @@ It takes id from the url and get the data from the api .
 
 <script>
 export default {
-  name: "View",
+  name: "BookingDashboardList",
   data() {
     return {
       client_view: [],
@@ -641,7 +639,7 @@ export default {
     },
 
     deleteBookedTrain(id) {
-      var uri = "api/bookedtrains/" + id;
+      var uri = "/api/bookedtrains/" + id;
       this.$swal
         .fire({
           title: "Are you sure?",
@@ -667,7 +665,7 @@ export default {
     },
 
     deleteBookedsightseeing() {
-      var uri = "api/bookedsightseeings/" + this.tour.tour_id;
+      var uri = "/api/bookedsightseeings/" + this.tour.tour_id;
       this.$swal
         .fire({
           title: "Are you sure?",
@@ -693,7 +691,7 @@ export default {
     },
 
     deleteBookedHotel(id) {
-      var uri = "api/bookedhotels/" + id;
+      var uri = "/api/bookedhotels/" + id;
       this.$swal
         .fire({
           title: "Are you sure?",
@@ -719,7 +717,7 @@ export default {
     },
 
     deleteBookedRestaurant(id) {
-      var uri = "api/bookedrestaurants/" + id;
+      var uri = "/api/bookedrestaurants/" + id;
       this.$swal
         .fire({
           title: "Are you sure?",
@@ -745,7 +743,7 @@ export default {
     },
 
     deleteBookedEscort(id) {
-      var uri = "api/bookedescorts/" + id;
+      var uri = "/api/bookedescorts/" + id;
       this.$swal
         .fire({
           title: "Are you sure?",
@@ -771,7 +769,7 @@ export default {
     },
 
     deleteBookedFlight(id) {
-      var uri = "api/bookedflights/" + id;
+      var uri = "/api/bookedflights/" + id;
       this.$swal
         .fire({
           title: "Are you sure?",
@@ -796,7 +794,7 @@ export default {
         });
     },
     deleteBookedBus(id) {
-      var uri = "api/bookedbuses/" + id;
+      var uri = "/api/bookedbuses/" + id;
       this.$swal
         .fire({
           title: "Are you sure?",
